@@ -1,0 +1,103 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/DialogGraph/Scenes/Editor.gd" type="Script" id=1]
+
+[node name="Editor" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 3
+script = ExtResource( 1 )
+GraphNodesScenes = [ "res://addons/DialogGraph/Scenes/Nodes/TimelineHeadNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/DialogueNode.tscn" ]
+popup_menu_nodes = NodePath("MarginContainer/VBoxContainer/GraphEdit/popup_menu_nodes")
+graph_editor = NodePath("MarginContainer/VBoxContainer/GraphEdit")
+label_current_tree = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Label_current_tree")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 1019.0
+margin_bottom = 595.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_right = 1014.0
+margin_bottom = 24.0
+
+[node name="btn_new_tree" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 72.0
+margin_bottom = 24.0
+text = "New Tree"
+
+[node name="btn_open_tree" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 76.0
+margin_right = 155.0
+margin_bottom = 24.0
+text = "Open Tree"
+
+[node name="btn_save_tree" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+visible = false
+margin_left = 159.0
+margin_right = 232.0
+margin_bottom = 24.0
+text = "Save Tree"
+
+[node name="btn_save_as_tree" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 159.0
+margin_right = 252.0
+margin_bottom = 24.0
+text = "Save As Tree"
+
+[node name="CheckBox-debug_print" type="CheckBox" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 256.0
+margin_right = 357.0
+margin_bottom = 24.0
+text = "debug print"
+
+[node name="Label_current_tree" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 361.0
+margin_top = 5.0
+margin_right = 1014.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "current tree: test"
+align = 2
+
+[node name="GraphEdit" type="GraphEdit" parent="MarginContainer/VBoxContainer"]
+margin_top = 28.0
+margin_right = 1014.0
+margin_bottom = 590.0
+mouse_filter = 1
+size_flags_vertical = 3
+right_disconnects = true
+scroll_offset = Vector2( 0, -279 )
+zoom_min = 0.1
+zoom_max = 2.0
+zoom_step = 1.1
+show_zoom_label = true
+minimap_size = Vector2( 150, 100 )
+minimap_opacity = 0.7
+
+[node name="popup_menu_nodes" type="PopupMenu" parent="MarginContainer/VBoxContainer/GraphEdit"]
+margin_right = 20.0
+margin_bottom = 20.0
+mouse_filter = 1
+items = [ "TimelineHeadNode", null, 0, false, false, 0, 0, null, "", false, "DialogueNode", null, 0, false, false, 1, 0, null, "", false ]
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/btn_new_tree" to="." method="_on_btn_new_tree_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/btn_open_tree" to="." method="_on_btn_open_tree_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/btn_save_tree" to="." method="_on_btn_save_tree_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/btn_save_as_tree" to="." method="_on_btn_save_as_tree_pressed"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/HBoxContainer/CheckBox-debug_print" to="." method="_on_CheckBoxdebug_print_toggled"]
+[connection signal="connection_request" from="MarginContainer/VBoxContainer/GraphEdit" to="." method="_on_GraphEdit_connection_request"]
+[connection signal="connection_to_empty" from="MarginContainer/VBoxContainer/GraphEdit" to="." method="_on_GraphEdit_connection_to_empty"]
+[connection signal="delete_nodes_request" from="MarginContainer/VBoxContainer/GraphEdit" to="." method="_on_GraphEdit_delete_nodes_request"]
+[connection signal="disconnection_request" from="MarginContainer/VBoxContainer/GraphEdit" to="." method="_on_GraphEdit_disconnection_request"]
+[connection signal="popup_request" from="MarginContainer/VBoxContainer/GraphEdit" to="." method="_on_GraphEdit_popup_request"]
+[connection signal="id_pressed" from="MarginContainer/VBoxContainer/GraphEdit/popup_menu_nodes" to="." method="_on_popup_menu_nodes_id_pressed"]

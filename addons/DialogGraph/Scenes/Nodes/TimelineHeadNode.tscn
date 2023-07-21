@@ -1,0 +1,50 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/DialogGraph/Scenes/Nodes/TimelineHeadNode.gd" type="Script" id=1]
+
+[node name="TimelineHeadNode" type="GraphNode"]
+margin_right = 192.0
+margin_bottom = 65.0
+rect_min_size = Vector2( 140, 60 )
+title = "TimelineHeadNode"
+show_close = true
+resizable = true
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color( 1, 1, 1, 1 )
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color( 1, 1, 1, 1 )
+script = ExtResource( 1 )
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 176.0
+margin_bottom = 53.0
+custom_constants/margin_top = 5
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer"]
+margin_top = 5.0
+margin_right = 160.0
+margin_bottom = 29.0
+
+[node name="timeline_head_name" type="LineEdit" parent="MarginContainer/HBoxContainer2"]
+margin_right = 123.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 4
+placeholder_text = "Option 1"
+
+[node name="run" type="Button" parent="MarginContainer/HBoxContainer2"]
+margin_left = 127.0
+margin_right = 160.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 33, 0 )
+size_flags_horizontal = 0
+text = "run"
+
+[connection signal="close_request" from="." to="." method="_on_DialogueNode_close_request"]
+[connection signal="resize_request" from="." to="." method="_on_DialogueNode_resize_request"]
+[connection signal="text_changed" from="MarginContainer/HBoxContainer2/timeline_head_name" to="." method="_on_timeline_head_name_text_changed"]
+[connection signal="text_entered" from="MarginContainer/HBoxContainer2/timeline_head_name" to="." method="_on_timeline_head_name_text_entered"]

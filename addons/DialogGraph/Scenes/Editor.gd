@@ -39,7 +39,11 @@ var tree:Dictionary
 
 var timeline_head_nodes = []
 var headless_nodes = []
-var cursor_pos:Vector2 
+
+var cursor_pos:Vector2
+# for _on_GraphEdit_connection_to_empty
+var request_node 
+var request_node_slot
 
 
 func show_popup(pos:Vector2):
@@ -69,7 +73,7 @@ func make_tree():
 	if debug_print: print("%s make_tree()"%[_print])
 
 
-func delete_node(graph_node):
+func delete_node(graph_node:String):
 	var graph_editor_node = get_node(graph_editor)
 	
 	for connection in graph_editor_node.get_connection_list():
@@ -78,6 +82,11 @@ func delete_node(graph_node):
 	
 	graph_editor_node.get_node(graph_node).queue_free()
 
+func zoom_lock(new:bool):
+	if new == true:
+		get_node(graph_editor).zoom_step = 1
+	else:
+		get_node(graph_editor).zoom_step = 1.1
 
 func _ready():
 	print("%s _ready()"%[_print])
@@ -130,11 +139,23 @@ func _on_popup_menu_nodes_id_pressed(id):
 	var graph = get_node(graph_editor)
 	graph.add_child(graph_node)
 	
+	# connect to previous node if created from _on_GraphEdit_connection_to_empty
+	if request_node:
+		if graph_node.is_slot_enabled_left(0):
+			# remove any connection from this slot to previous node
+			remove_connection(request_node, request_node_slot, graph_node.name)
+			# make new connection
+			graph.connect_node(request_node, request_node_slot, graph_node.name, 0)
+		request_node = null
+		request_node_slot = null
+	
 	graph_node.offset = (cursor_pos - graph.rect_global_position + graph.scroll_offset) / graph.zoom
 
 
 func _on_GraphEdit_connection_to_empty(from, from_slot, release_position):
 	if debug_print: print("%s _on_GraphEdit_connection_to_empty(from:%s, from_slot:%s, release_position:%s)"%[_print, from, from_slot, release_position])
+	request_node = from
+	request_node_slot = from_slot
 	show_popup(release_position + get_node(graph_editor).rect_global_position)
 
 
@@ -144,10 +165,24 @@ func _on_GraphEdit_delete_nodes_request(nodes):
 	for graph_node in nodes:
 		delete_node(graph_node)
 
+func remove_connection(from, from_slot, to):
+	var graph_editor_node:GraphEdit = get_node(graph_editor)
+	for connection in graph_editor_node.get_connection_list():
+		if connection['from'] == from:
+			if connection['to'] != to and connection['from_port'] == from_slot:
+				graph_editor_node.disconnect_node(
+					connection['from'], connection['from_port'], connection['to'], connection['to_port']
+				)
 
 func _on_GraphEdit_connection_request(from, from_slot, to, to_slot):
 	if debug_print: print("%s _on_GraphEdit_connection_request(from:%s, from_slot:%s, to:%s, to_slot:%s)"%[_print, from, from_slot, to, to_slot])
+	if from == to: return
 	var graph_editor_node:GraphEdit = get_node(graph_editor)
+	
+	# remove any connection from this slot to previous node
+	remove_connection(from, from_slot, to)
+	
+	# create new connction
 	graph_editor_node.connect_node(from, from_slot, to, to_slot)
 
 

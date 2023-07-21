@@ -18,4 +18,4 @@ func _on_DialogueNode_resize_request(new_minsize):
 
 func _on_DialogueNode_close_request():
 	print("TimelineHeadNode _on_DialogueNode_close_request")
-	get_parent().owner.delete_node()
+	get_parent().owner.delete_node(name)

@@ -24,7 +24,7 @@ func _on_DialogueNode_resize_request(new_minsize):
 
 func _on_DialogueNode_close_request():
 	print("DialogueNode _on_DialogueNode_close_request")
-	get_parent().owner.delete_node()
+	get_parent().owner.delete_node(name)
 
 func _on_add_option_pressed():
 	if option_count == 4: return
@@ -35,3 +35,10 @@ func _on_minus_option_pressed():
 	if option_count == 0: return
 	option_count -= 1 
 	update_slots()
+
+
+func _on_TextEdit_mouse_entered():
+	get_parent().owner.zoom_lock(true)
+
+func _on_TextEdit_mouse_exited():
+	get_parent().owner.zoom_lock(false)

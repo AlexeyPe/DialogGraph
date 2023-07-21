@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://addons/DialogGraph/Scenes/Nodes/TimelineHeadNode.gd" type="Script" id=1]
+[ext_resource path="res://addons/DialogGraph/font/default.tres" type="DynamicFont" id=2]
 
 [node name="TimelineHeadNode" type="GraphNode"]
 margin_right = 192.0
@@ -21,25 +22,26 @@ script = ExtResource( 1 )
 margin_left = 16.0
 margin_top = 24.0
 margin_right = 176.0
-margin_bottom = 53.0
+margin_bottom = 57.0
 custom_constants/margin_top = 5
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer"]
 margin_top = 5.0
 margin_right = 160.0
-margin_bottom = 29.0
+margin_bottom = 33.0
 
 [node name="timeline_head_name" type="LineEdit" parent="MarginContainer/HBoxContainer2"]
 margin_right = 123.0
-margin_bottom = 24.0
+margin_bottom = 28.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
-placeholder_text = "Option 1"
+custom_fonts/font = ExtResource( 2 )
+placeholder_text = "Timeline name"
 
 [node name="run" type="Button" parent="MarginContainer/HBoxContainer2"]
 margin_left = 127.0
 margin_right = 160.0
-margin_bottom = 24.0
+margin_bottom = 28.0
 rect_min_size = Vector2( 33, 0 )
 size_flags_horizontal = 0
 text = "run"

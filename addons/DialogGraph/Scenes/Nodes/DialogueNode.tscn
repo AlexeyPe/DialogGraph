@@ -73,6 +73,7 @@ margin_bottom = 49.0
 margin_right = 25.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 25, 25 )
+mouse_default_cursor_shape = 2
 custom_fonts/font = SubResource( 2 )
 text = "+"
 icon_align = 1
@@ -82,6 +83,7 @@ margin_left = 29.0
 margin_right = 54.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 25, 25 )
+mouse_default_cursor_shape = 2
 custom_fonts/font = SubResource( 2 )
 text = "-"
 icon_align = 1
@@ -104,6 +106,7 @@ alignment = 2
 margin_left = 14.0
 margin_right = 47.0
 margin_bottom = 25.0
+mouse_default_cursor_shape = 2
 text = "run"
 
 [node name="Option1" type="LineEdit" parent="."]
@@ -170,9 +173,14 @@ highlight_all_occurrences = true
 wrap_enabled = true
 caret_blink = true
 
-[connection signal="close_request" from="." to="." method="_on_DialogueNode_close_request"]
 [connection signal="resize_request" from="." to="." method="_on_DialogueNode_resize_request"]
 [connection signal="pressed" from="HBoxContainer2/add_option" to="." method="_on_add_option_pressed"]
 [connection signal="pressed" from="HBoxContainer2/minus_option" to="." method="_on_minus_option_pressed"]
+[connection signal="focus_exited" from="Option1" to="." method="_on_focus_exited"]
+[connection signal="focus_exited" from="Option2" to="." method="_on_focus_exited"]
+[connection signal="focus_exited" from="Option3" to="." method="_on_focus_exited"]
+[connection signal="focus_exited" from="Option4" to="." method="_on_focus_exited"]
+[connection signal="focus_exited" from="Speaker" to="." method="_on_focus_exited"]
+[connection signal="focus_exited" from="TextEdit" to="." method="_on_focus_exited"]
 [connection signal="mouse_entered" from="TextEdit" to="." method="_on_TextEdit_mouse_entered"]
 [connection signal="mouse_exited" from="TextEdit" to="." method="_on_TextEdit_mouse_exited"]

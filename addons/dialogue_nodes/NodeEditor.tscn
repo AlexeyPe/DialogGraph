@@ -189,6 +189,7 @@ mode_overrides_title = false
 filters = PoolStringArray( "*.json; Dialogue JSON File" )
 
 [node name="OpenDialog" type="FileDialog" parent="."]
+visible = true
 margin_left = 200.0
 margin_top = 200.0
 margin_right = 700.0

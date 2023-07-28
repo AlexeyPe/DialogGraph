@@ -17,6 +17,7 @@ slot/0/right_enabled = true
 slot/0/right_type = 0
 slot/0/right_color = Color( 1, 1, 1, 1 )
 script = ExtResource( 1 )
+is_timeline_head = true
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 margin_left = 16.0
@@ -43,10 +44,11 @@ margin_left = 127.0
 margin_right = 160.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 33, 0 )
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 0
 text = "run"
 
-[connection signal="close_request" from="." to="." method="_on_DialogueNode_close_request"]
-[connection signal="resize_request" from="." to="." method="_on_DialogueNode_resize_request"]
+[connection signal="resize_request" from="." to="." method="_on_TimelineHeadNode_resize_request"]
+[connection signal="focus_exited" from="MarginContainer/HBoxContainer2/timeline_head_name" to="." method="_on_timeline_head_name_focus_exited"]
 [connection signal="text_changed" from="MarginContainer/HBoxContainer2/timeline_head_name" to="." method="_on_timeline_head_name_text_changed"]
-[connection signal="text_entered" from="MarginContainer/HBoxContainer2/timeline_head_name" to="." method="_on_timeline_head_name_text_entered"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer2/run" to="." method="_on_run_pressed"]

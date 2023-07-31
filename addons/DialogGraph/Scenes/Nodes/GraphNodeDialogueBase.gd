@@ -4,7 +4,11 @@ class_name GraphNodeDialogueBase
 
 export var is_timeline_head:bool = false
 
-var tree_row:int
+# Set in Editor.gd build_tree_build_node()
+var row:int
+var row_links = []
+# Set in build_tree()
+var row_parent:int
 
 func get_type() -> String:
 	return "null"

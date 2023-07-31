@@ -11,12 +11,14 @@ func _enter_tree():
 	editor_instance = Editor.instance()
 	get_editor_interface().get_editor_viewport().add_child(editor_instance)
 	make_visible(false)
+	add_autoload_singleton("DialogueManager", "res://addons/DialogGraph/DialogueGraph.gd")
 	print("%s _enter_tree success"%[_print])
 
 func _exit_tree():
 	print("%s _exit_tree()"%[_print])
 	if editor_instance:
 		editor_instance.queue_free()
+	remove_autoload_singleton("DialogueManager")
 	print("%s _exit_tree() success"%[_print])
 
 func has_main_screen():

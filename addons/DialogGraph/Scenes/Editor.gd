@@ -74,6 +74,7 @@ func save_tree():
 	if debug_print: print("%s save_tree()"%[_print])
 	make_tree()
 	save_tree_to_json()
+	DialogueManager.set_tree(tree)
 	if debug_print: print("%s save_tree() success"%[_print])
 
 func make_tree():
@@ -145,8 +146,10 @@ func add_node_to_tree(node, node_name) -> int:
 	if node is GraphNodeDialogueBase:
 		if GraphNodeName2TreeRow.has(node_name):
 			node_index = GraphNodeName2TreeRow[node_name]
+			node.row = node_index
 		else:
 			node_index = tree["Nodes"].size()
+			node.row = node_index
 			tree["Nodes"].append([ [], node.rect_min_size, node.offset, tree["NodeTypes"].find(node.get_type()), node.get_instructions()])
 			print("add_node_to_tree tree:",tree)
 	return node_index
@@ -178,7 +181,9 @@ func build_tree():
 #			print("TreeRow2GraphNode[str(link[0])].name ", TreeRow2GraphNode[int(link[0])].name)
 #			print("link[2] ", link[2])
 			graph_editor_node.connect_node(TreeRow2GraphNode[i].name, link[1], TreeRow2GraphNode[int(link[0])].name, link[2])
+			TreeRow2GraphNode[int(link[0])].row_parent = i
 	
+	DialogueManager.set_tree(tree)
 	mode_load_tree = false
 	if debug_print: print("%s build_tree() success"%[_print])
 
@@ -191,7 +196,10 @@ func build_tree_build_node(i):
 	get_node(graph_editor).add_child(node)
 	node.rect_min_size = str2var("Vector2" + node_row[1])
 	node.offset = str2var("Vector2" + node_row[2])
-	node.tree_row = i
+	node.row = i
+	node.row_links = []
+	for link in node_row[0]:
+		node.row_links.append(link[0])
 	node.set_instructions(node_row[4])
 	print(node)
 	return node
@@ -227,9 +235,6 @@ func zoom_lock(new:bool):
 		get_node(graph_editor).zoom_step = 1
 	else:
 		get_node(graph_editor).zoom_step = 1.1
-
-func run_from_node(node_name:String):
-	if debug_print: print("%s run_from_node()"%[_print])
 	
 
 func _ready():
@@ -237,13 +242,14 @@ func _ready():
 	var popup_menu_nodes_node:PopupMenu = get_node(popup_menu_nodes)
 	popup_menu_nodes_node.clear()
 #	Names in the popup window are set here, this is the name of the graph nodes
+	var graph_node_types = []
 	for graph_node in GraphNodesScenes:
-		var graph_node_name = load(graph_node).instance().name
-		print("%s _ready() add graph_node %s"%[_print, graph_node_name])
+		var graph_node_name = load(graph_node).instance().get_type()
 		GraphNodeName2GraphNodeScene[graph_node_name] = graph_node
 		GraphNodeScene2GraphNodeName[graph_node] = graph_node_name
 		popup_menu_nodes_node.add_item(graph_node_name)
-	
+		graph_node_types.append(graph_node_name)
+	print("%s _ready() add graph_node types %s"%[_print, graph_node_types])
 	update_ui()
 	
 	print("%s _ready() success"%[_print])
@@ -292,8 +298,9 @@ func _on_popup_menu_nodes_id_pressed(id):
 			remove_connection(request_node, request_node_slot, graph_node.name)
 			# make new connection
 			graph.connect_node(request_node, request_node_slot, graph_node.name, 0)
-		request_node = null
-		request_node_slot = null
+	
+	request_node = null
+	request_node_slot = null
 	
 	graph_node.offset = (cursor_pos - graph.rect_global_position + graph.scroll_offset) / graph.zoom
 	save_tree()

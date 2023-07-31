@@ -3,6 +3,8 @@ extends GraphNodeDialogueBase
 
 var option_count = 0
 
+const _print = "Addon:DialogueGraph, DialogueNode.gd"
+
 func get_instructions() -> Array:
 	var result = []
 #	[speaker:String, text:String, option1:String, option2:String, option3:String, option4:String]
@@ -18,16 +20,30 @@ func _ready():
 	update_slots()
 
 func update_slots():
-	if option_count == 0:
-		set_slot_enabled_right(0, true)
-	else:
-		set_slot_enabled_right(0, false)
 	for i in 4:
 		get_node("Option%s"%[i+1]).visible = false
 		set_slot_enabled_right(i+1, false)
 	for i in option_count:
 		get_node("Option%s"%[i+1]).visible = true
 		set_slot_enabled_right(i+1, true)
+	
+	var graph_editor:GraphEdit = get_parent()
+	var connections = []
+	for connection in graph_editor.get_connection_list():
+		if connection["from"] == name:
+			connections.append(connection)
+	
+	if option_count == 0:
+		set_slot_enabled_right(0, true)
+	else:
+		set_slot_enabled_right(0, false)
+		for i in 4:
+			var slot_index = 4-i+option_count-1
+			print("slot_index ", slot_index)
+			for connection in connections:
+				if connection["from_port"] == slot_index:
+					print("connection['from_port'] == slot_index")
+					graph_editor.disconnect_node(connection["from"], connection["from_port"], connection["to"], connection["to_port"])
 
 func get_type() -> String:
 	return "DialogueNode"
@@ -73,3 +89,10 @@ func _on_TextEdit_mouse_exited():
 
 func _on_focus_exited():
 	get_parent().owner.save_tree()
+
+
+func _on_run_pressed():
+	if DialogueManager._debug_print:
+		print("%s _on_run_pressed() DialogueManager.run_from_row(row:%s)"%[_print, row])
+	DialogueManager.run_from_row(row)
+	pass # Replace with function body.

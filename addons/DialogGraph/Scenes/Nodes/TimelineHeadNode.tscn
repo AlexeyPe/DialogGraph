@@ -23,17 +23,17 @@ is_timeline_head = true
 margin_left = 16.0
 margin_top = 24.0
 margin_right = 176.0
-margin_bottom = 57.0
+margin_bottom = 62.0
 custom_constants/margin_top = 5
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer"]
 margin_top = 5.0
 margin_right = 160.0
-margin_bottom = 33.0
+margin_bottom = 38.0
 
 [node name="timeline_head_name" type="LineEdit" parent="MarginContainer/HBoxContainer2"]
 margin_right = 123.0
-margin_bottom = 28.0
+margin_bottom = 33.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
 custom_fonts/font = ExtResource( 2 )
@@ -42,7 +42,7 @@ placeholder_text = "Timeline name"
 [node name="run" type="Button" parent="MarginContainer/HBoxContainer2"]
 margin_left = 127.0
 margin_right = 160.0
-margin_bottom = 28.0
+margin_bottom = 33.0
 rect_min_size = Vector2( 33, 0 )
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 0

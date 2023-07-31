@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/dialogue_nodes/objects/dialogueBox.gd"
 }, {
+"base": "Control",
+"class": "DialogueManagerBox",
+"language": "GDScript",
+"path": "res://addons/DialogGraph/DialogueManagerBox.gd"
+}, {
 "base": "GraphNode",
 "class": "GraphNodeDialogueBase",
 "language": "GDScript",
@@ -26,6 +31,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "DialogueBox": "",
+"DialogueManagerBox": "",
 "GraphNodeDialogueBase": "",
 "RichTextWait": ""
 }
@@ -36,6 +42,10 @@ config/name="DialogGraph"
 run/main_scene="res://addons/DialogGraph/Demo/Demo.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+DialogueManager="*res://addons/DialogGraph/DialogueGraph.gd"
+
 [editor_plugins]
 
 enabled=PoolStringArray( "res://addons/DialogGraph/plugin.cfg", "res://addons/dialogue_nodes/plugin.cfg" )
@@ -43,6 +53,7 @@ enabled=PoolStringArray( "res://addons/DialogGraph/plugin.cfg", "res://addons/di
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
+theme/custom="res://addons/DialogGraph/Demo/new_theme.tres"
 
 [physics]
 

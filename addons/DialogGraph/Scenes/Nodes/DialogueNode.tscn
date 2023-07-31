@@ -114,7 +114,7 @@ visible = false
 margin_left = 16.0
 margin_top = 53.0
 margin_right = 176.0
-margin_bottom = 77.0
+margin_bottom = 86.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 3 )
 placeholder_text = "Option 1"
@@ -122,9 +122,9 @@ placeholder_text = "Option 1"
 [node name="Option2" type="LineEdit" parent="."]
 visible = false
 margin_left = 16.0
-margin_top = 53.0
+margin_top = 90.0
 margin_right = 176.0
-margin_bottom = 77.0
+margin_bottom = 123.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 3 )
 placeholder_text = "Option 2"
@@ -132,9 +132,9 @@ placeholder_text = "Option 2"
 [node name="Option3" type="LineEdit" parent="."]
 visible = false
 margin_left = 16.0
-margin_top = 53.0
+margin_top = 127.0
 margin_right = 176.0
-margin_bottom = 77.0
+margin_bottom = 160.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 3 )
 placeholder_text = "Option 3"
@@ -142,9 +142,9 @@ placeholder_text = "Option 3"
 [node name="Option4" type="LineEdit" parent="."]
 visible = false
 margin_left = 16.0
-margin_top = 53.0
+margin_top = 164.0
 margin_right = 176.0
-margin_bottom = 77.0
+margin_bottom = 197.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 3 )
 placeholder_text = "Option 4"
@@ -153,16 +153,16 @@ placeholder_text = "Option 4"
 margin_left = 16.0
 margin_top = 53.0
 margin_right = 176.0
-margin_bottom = 81.0
+margin_bottom = 86.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 3 )
 placeholder_text = "Speaker"
 
 [node name="TextEdit" type="TextEdit" parent="."]
 margin_left = 16.0
-margin_top = 85.0
+margin_top = 90.0
 margin_right = 176.0
-margin_bottom = 234.0
+margin_bottom = 238.0
 hint_tooltip = "The dialogue displayed in the DialogueBox.
 Use [bbcodes] to add extra effects to your dialogue."
 size_flags_vertical = 3
@@ -176,6 +176,7 @@ caret_blink = true
 [connection signal="resize_request" from="." to="." method="_on_DialogueNode_resize_request"]
 [connection signal="pressed" from="HBoxContainer2/add_option" to="." method="_on_add_option_pressed"]
 [connection signal="pressed" from="HBoxContainer2/minus_option" to="." method="_on_minus_option_pressed"]
+[connection signal="pressed" from="HBoxContainer2/HBoxContainer/run" to="." method="_on_run_pressed"]
 [connection signal="focus_exited" from="Option1" to="." method="_on_focus_exited"]
 [connection signal="focus_exited" from="Option2" to="." method="_on_focus_exited"]
 [connection signal="focus_exited" from="Option3" to="." method="_on_focus_exited"]

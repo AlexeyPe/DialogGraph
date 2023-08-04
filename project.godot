@@ -9,11 +9,6 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "PopupDialog",
-"class": "DialogueBox",
-"language": "GDScript",
-"path": "res://addons/dialogue_nodes/objects/dialogueBox.gd"
-}, {
 "base": "Control",
 "class": "DialogueManagerBox",
 "language": "GDScript",
@@ -23,17 +18,10 @@ _global_script_classes=[ {
 "class": "GraphNodeDialogueBase",
 "language": "GDScript",
 "path": "res://addons/DialogGraph/Scenes/Nodes/GraphNodeDialogueBase.gd"
-}, {
-"base": "RichTextEffect",
-"class": "RichTextWait",
-"language": "GDScript",
-"path": "res://addons/dialogue_nodes/objects/bbcodeWait.gd"
 } ]
 _global_script_class_icons={
-"DialogueBox": "",
 "DialogueManagerBox": "",
-"GraphNodeDialogueBase": "",
-"RichTextWait": ""
+"GraphNodeDialogueBase": ""
 }
 
 [application]
@@ -48,7 +36,7 @@ DialogueManager="*res://addons/DialogGraph/DialogueGraph.gd"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/DialogGraph/plugin.cfg", "res://addons/dialogue_nodes/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/DialogGraph/plugin.cfg" )
 
 [gui]
 

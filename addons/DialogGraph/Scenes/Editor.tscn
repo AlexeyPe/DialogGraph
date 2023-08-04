@@ -8,13 +8,16 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_vertical = 3
 script = ExtResource( 1 )
-GraphNodesScenes = [ "res://addons/DialogGraph/Scenes/Nodes/TimelineHeadNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/DialogueNode.tscn" ]
-popup_menu_nodes = NodePath("MarginContainer/VBoxContainer/GraphEdit/popup_menu_nodes")
-graph_editor = NodePath("MarginContainer/VBoxContainer/GraphEdit")
+GraphNodesScenes = [ "res://addons/DialogGraph/Scenes/Nodes/TimelineHeadNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/DialogueNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/CommentNode.tscn" ]
+scene_variable_slot = "res://addons/DialogGraph/Scenes/variable_slot.tscn"
+variable_slot_parent = NodePath("MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer")
+popup_menu_nodes = NodePath("MarginContainer/VBoxContainer/HSplitContainer/GraphEdit/popup_menu_nodes")
+graph_editor = NodePath("MarginContainer/VBoxContainer/HSplitContainer/GraphEdit")
 label_current_tree = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Label_current_tree")
 FileDialogOpen = NodePath("FileDialogOpen")
 FileDialogNew = NodePath("FileDialogNew")
 FileDialogSaveAs = NodePath("FileDialogSaveAs")
+workspace_node = NodePath("MarginContainer/VBoxContainer/HSplitContainer")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -40,12 +43,14 @@ mouse_filter = 2
 [node name="btn_new_tree" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 margin_right = 72.0
 margin_bottom = 24.0
+mouse_default_cursor_shape = 2
 text = "New Tree"
 
 [node name="btn_open_tree" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 76.0
 margin_right = 155.0
 margin_bottom = 24.0
+mouse_default_cursor_shape = 2
 text = "Open Tree"
 
 [node name="btn_save_tree" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
@@ -53,12 +58,14 @@ visible = false
 margin_left = 159.0
 margin_right = 232.0
 margin_bottom = 24.0
+mouse_default_cursor_shape = 2
 text = "Save Tree"
 
 [node name="btn_save_as_tree" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 159.0
 margin_right = 252.0
 margin_bottom = 24.0
+mouse_default_cursor_shape = 2
 text = "Save As Tree"
 
 [node name="CheckBox-debug_print" type="CheckBox" parent="MarginContainer/VBoxContainer/HBoxContainer"]
@@ -76,15 +83,69 @@ size_flags_horizontal = 3
 text = "current tree: Null"
 align = 2
 
-[node name="GraphEdit" type="GraphEdit" parent="MarginContainer/VBoxContainer"]
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer"]
 visible = false
 margin_top = 28.0
 margin_right = 1014.0
 margin_bottom = 590.0
+size_flags_vertical = 3
+split_offset = 111
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HSplitContainer"]
+margin_right = 1014.0
+margin_bottom = 562.0
+mouse_filter = 1
+custom_constants/margin_top = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer"]
+margin_top = 4.0
+margin_right = 1014.0
+margin_bottom = 562.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer"]
+margin_right = 212.0
+margin_bottom = 20.0
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_top = 3.0
+margin_right = 58.0
+margin_bottom = 17.0
+text = "Variables"
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 62.0
+margin_right = 173.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="Button_add_var" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 177.0
+margin_right = 212.0
+margin_bottom = 20.0
+mouse_default_cursor_shape = 2
+text = "add"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer"]
+margin_top = 24.0
+margin_right = 212.0
+margin_bottom = 558.0
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+margin_right = 212.0
+margin_bottom = 534.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GraphEdit" type="GraphEdit" parent="MarginContainer/VBoxContainer/HSplitContainer"]
+visible = false
+margin_left = 224.0
+margin_right = 1014.0
+margin_bottom = 562.0
 mouse_filter = 1
 size_flags_vertical = 3
 right_disconnects = true
-scroll_offset = Vector2( 0, -279 )
+scroll_offset = Vector2( -129, 0 )
 zoom_min = 0.1
 zoom_max = 2.0
 zoom_step = 1.1
@@ -92,11 +153,11 @@ show_zoom_label = true
 minimap_size = Vector2( 150, 100 )
 minimap_opacity = 0.7
 
-[node name="popup_menu_nodes" type="PopupMenu" parent="MarginContainer/VBoxContainer/GraphEdit"]
+[node name="popup_menu_nodes" type="PopupMenu" parent="MarginContainer/VBoxContainer/HSplitContainer/GraphEdit"]
 margin_right = 20.0
 margin_bottom = 20.0
 mouse_filter = 1
-items = [ "TimelineHeadNode", null, 0, false, false, 0, 0, null, "", false, "DialogueNode", null, 0, false, false, 1, 0, null, "", false ]
+items = [ "TimelineHeadNode", null, 0, false, false, 0, 0, null, "", false, "DialogueNode", null, 0, false, false, 1, 0, null, "", false, "CommentNode", null, 0, false, false, 2, 0, null, "", false ]
 
 [node name="FileDialogOpen" type="FileDialog" parent="."]
 margin_left = 203.0
@@ -151,11 +212,12 @@ mouse_filter = 1
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/btn_save_tree" to="." method="_on_btn_save_tree_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/btn_save_as_tree" to="." method="_on_btn_save_as_tree_pressed"]
 [connection signal="toggled" from="MarginContainer/VBoxContainer/HBoxContainer/CheckBox-debug_print" to="." method="_on_CheckBoxdebug_print_toggled"]
-[connection signal="connection_request" from="MarginContainer/VBoxContainer/GraphEdit" to="." method="_on_GraphEdit_connection_request"]
-[connection signal="connection_to_empty" from="MarginContainer/VBoxContainer/GraphEdit" to="." method="_on_GraphEdit_connection_to_empty"]
-[connection signal="delete_nodes_request" from="MarginContainer/VBoxContainer/GraphEdit" to="." method="_on_GraphEdit_delete_nodes_request"]
-[connection signal="disconnection_request" from="MarginContainer/VBoxContainer/GraphEdit" to="." method="_on_GraphEdit_disconnection_request"]
-[connection signal="popup_request" from="MarginContainer/VBoxContainer/GraphEdit" to="." method="_on_GraphEdit_popup_request"]
-[connection signal="id_pressed" from="MarginContainer/VBoxContainer/GraphEdit/popup_menu_nodes" to="." method="_on_popup_menu_nodes_id_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/HBoxContainer/Button_add_var" to="." method="_on_Button_add_var_pressed"]
+[connection signal="connection_request" from="MarginContainer/VBoxContainer/HSplitContainer/GraphEdit" to="." method="_on_GraphEdit_connection_request"]
+[connection signal="connection_to_empty" from="MarginContainer/VBoxContainer/HSplitContainer/GraphEdit" to="." method="_on_GraphEdit_connection_to_empty"]
+[connection signal="delete_nodes_request" from="MarginContainer/VBoxContainer/HSplitContainer/GraphEdit" to="." method="_on_GraphEdit_delete_nodes_request"]
+[connection signal="disconnection_request" from="MarginContainer/VBoxContainer/HSplitContainer/GraphEdit" to="." method="_on_GraphEdit_disconnection_request"]
+[connection signal="popup_request" from="MarginContainer/VBoxContainer/HSplitContainer/GraphEdit" to="." method="_on_GraphEdit_popup_request"]
+[connection signal="id_pressed" from="MarginContainer/VBoxContainer/HSplitContainer/GraphEdit/popup_menu_nodes" to="." method="_on_popup_menu_nodes_id_pressed"]
 [connection signal="file_selected" from="FileDialogOpen" to="." method="_on_FileDialogOpen_file_selected"]
 [connection signal="file_selected" from="FileDialogNew" to="." method="_on_FileDialogNew_file_selected"]

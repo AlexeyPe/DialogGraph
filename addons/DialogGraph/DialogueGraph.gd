@@ -3,6 +3,28 @@ extends Node
 
 # Is singltone
 
+#	To find out about the node code, check Scenes/Nodes/...
+#	New nodes are added via Scenes/Editor.tscn/Editor(root)/GraphNodesScenes:[path]
+
+#	Is "tree" and json save
+#	{
+#		"SaveVersion": int,
+#		"SupportOldVersions": [int],
+#		"Variables": { "var_name:String": value:int/float/string/bool },
+#		"NodeTypes": [String], # TimelineHeadNode, DialogueNode
+#		"TimelineHeads":{
+#			"string(TimelineHeadNode.name)": index_start:int
+#		},
+#		"Nodes": [
+#			# I could save this as a Dictionary for file readability
+#			# But why read this file?..) Let it contain less information so that the file weighs less
+#			# instructions - contains different information, depends on which node is saved (check .gd in Nodes folder)
+#			[links:[ [index, from_port, to_port] ], node.rect_min_size:Vector2, node.offset:Vector2, node_type_index:int, instructions:[?] ]
+#			[ [[int, int, int]], Vector2, Vector2, int, [?] ]
+#			[ 0,				 1, 	  2,	   3,	4   ]
+#		]
+#	}
+
 const SupportVersions = 1
 const _print = "Addon:DialogueGraph, DialogueGraph.gd"
 const _debug_print:bool = true
@@ -28,23 +50,6 @@ signal on_run_timeline_head(head_name, row_index)
 
 var load_tree:bool = false
 var tree:Dictionary
-#	Is tree
-#	{
-#		"SaveVersion": int,
-#		"SupportOldVersions": [int],
-#		"NodeTypes": [String], # TimelineHeadNode, DialogueNode
-#		"TimelineHeads":{
-#			"string(TimelineHeadNode.name)": index_start:int
-#		},
-#		"Nodes": [
-#			# I could save this as a Dictionary for file readability
-#			# But why read this file?..) Let it contain less information so that the file weighs less
-#			# instructions - contains different information, depends on which node is saved (check .gd in Nodes folder)
-#			[links:[ [index, from_port, to_port] ], node.rect_min_size:Vector2, node.offset:Vector2, node_type_index:int, instructions:[?] ]
-#			[ [[int, int, int]], Vector2, Vector2, int, [?] ]
-#			[ 0,				 1, 	  2,	   3,	4   ]
-#		]
-#	}
 
 func load_tree(path:String, params:Dictionary):
 	load_tree = true
@@ -52,9 +57,9 @@ func load_tree(path:String, params:Dictionary):
 # call in Scenes/Editor.gd save_tree()
 func set_tree(new_tree:Dictionary):
 	if SupportVersions == new_tree["SaveVersion"]: 
-		if _debug_print: print("%s set_tree(new_tree:%s)"%[_print, new_tree])
+		if _debug_print: print("%s set_tree(new_tree)"%[_print])
 	else:
-		printerr("%s set_tree(new_tree:%s)"%[_print, new_tree])
+		printerr("%s set_tree(new_tree)"%[_print])
 		print("set_tree SupportVersions:%s new_tree['SaveVersion']:%s"%[SupportVersions, new_tree['SaveVersion']])
 		load_tree = false
 		tree = {}

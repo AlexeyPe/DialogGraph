@@ -27,11 +27,13 @@ func update_slots():
 		get_node("Option%s"%[i+1]).visible = true
 		set_slot_enabled_right(i+1, true)
 	
-	var graph_editor:GraphEdit = get_parent()
+	var graph_editor:GraphEdit
 	var connections = []
-	for connection in graph_editor.get_connection_list():
-		if connection["from"] == name:
-			connections.append(connection)
+	if get_parent() is GraphEdit:
+		graph_editor = get_parent()
+		for connection in graph_editor.get_connection_list():
+			if connection["from"] == name:
+				connections.append(connection)
 	
 	if option_count == 0:
 		set_slot_enabled_right(0, true)
@@ -60,10 +62,10 @@ func set_instructions(instructions:Array):
 		$Option2.text = instructions[3]
 	if instructions[4] != "": 
 		option_count += 1
-		$Option4.text = instructions[4]
+		$Option3.text = instructions[4]
 	if instructions[5] != "": 
 		option_count += 1
-		$Option3.text = instructions[5]
+		$Option4.text = instructions[5]
 	update_slots()
 
 func _on_DialogueNode_resize_request(new_minsize):

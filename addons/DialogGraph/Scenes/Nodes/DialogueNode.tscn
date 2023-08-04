@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://addons/DialogGraph/Scenes/Nodes/DialogueNode.gd" type="Script" id=1]
 [ext_resource path="res://addons/DialogGraph/font/Nunito-Regular.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://addons/DialogGraph/font/default.tres" type="DynamicFont" id=3]
 
 [sub_resource type="DynamicFont" id=2]
 size = 20
@@ -114,60 +113,53 @@ visible = false
 margin_left = 16.0
 margin_top = 53.0
 margin_right = 176.0
-margin_bottom = 86.0
+margin_bottom = 77.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 3 )
 placeholder_text = "Option 1"
 
 [node name="Option2" type="LineEdit" parent="."]
 visible = false
 margin_left = 16.0
-margin_top = 90.0
+margin_top = 81.0
 margin_right = 176.0
-margin_bottom = 123.0
+margin_bottom = 105.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 3 )
 placeholder_text = "Option 2"
 
 [node name="Option3" type="LineEdit" parent="."]
 visible = false
 margin_left = 16.0
-margin_top = 127.0
+margin_top = 109.0
 margin_right = 176.0
-margin_bottom = 160.0
+margin_bottom = 133.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 3 )
 placeholder_text = "Option 3"
 
 [node name="Option4" type="LineEdit" parent="."]
 visible = false
 margin_left = 16.0
-margin_top = 164.0
+margin_top = 137.0
 margin_right = 176.0
-margin_bottom = 197.0
+margin_bottom = 161.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 3 )
 placeholder_text = "Option 4"
 
 [node name="Speaker" type="LineEdit" parent="."]
 margin_left = 16.0
 margin_top = 53.0
 margin_right = 176.0
-margin_bottom = 86.0
+margin_bottom = 77.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 3 )
 placeholder_text = "Speaker"
 
 [node name="TextEdit" type="TextEdit" parent="."]
 margin_left = 16.0
-margin_top = 90.0
+margin_top = 81.0
 margin_right = 176.0
-margin_bottom = 238.0
+margin_bottom = 234.0
 hint_tooltip = "The dialogue displayed in the DialogueBox.
 Use [bbcodes] to add extra effects to your dialogue."
 size_flags_vertical = 3
-custom_constants/line_spacing = -5
-custom_fonts/font = ExtResource( 3 )
 syntax_highlighting = true
 highlight_all_occurrences = true
 wrap_enabled = true

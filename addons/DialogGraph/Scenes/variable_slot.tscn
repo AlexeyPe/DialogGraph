@@ -1,0 +1,70 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/DialogGraph/imgs/delete2.png" type="Texture" id=1]
+[ext_resource path="res://addons/DialogGraph/Scenes/variable_slot.gd" type="Script" id=2]
+
+[node name="variable_slot" type="HBoxContainer"]
+margin_right = 223.0
+margin_bottom = 24.0
+script = ExtResource( 2 )
+
+[node name="Button_delete" type="Button" parent="."]
+margin_right = 20.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 20, 0 )
+mouse_default_cursor_shape = 2
+icon = ExtResource( 1 )
+expand_icon = true
+
+[node name="LineEdit_name" type="LineEdit" parent="."]
+margin_left = 24.0
+margin_right = 95.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+placeholder_text = "name"
+
+[node name="LineEdit_value" type="LineEdit" parent="."]
+visible = false
+margin_left = 86.0
+margin_right = 144.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+placeholder_text = "value"
+
+[node name="SpinBox_int_value" type="SpinBox" parent="."]
+margin_left = 99.0
+margin_right = 173.0
+margin_bottom = 24.0
+min_value = -1e+08
+max_value = 1e+08
+
+[node name="SpinBox_float_value" type="SpinBox" parent="."]
+visible = false
+margin_left = 226.0
+margin_right = 300.0
+margin_bottom = 24.0
+min_value = -1e+08
+max_value = 1e+08
+step = 0.01
+
+[node name="CheckBox" type="CheckBox" parent="."]
+visible = false
+margin_left = 304.0
+margin_right = 328.0
+margin_bottom = 24.0
+
+[node name="OptionButton" type="OptionButton" parent="."]
+margin_left = 177.0
+margin_right = 223.0
+margin_bottom = 24.0
+text = "int"
+items = [ "int", null, false, 0, null, "float", null, false, 1, null, "string", null, false, 2, null, "bool", null, false, 3, null, "int", null, false, 4, null, "float", null, false, 5, null, "string", null, false, 6, null, "bool", null, false, 7, null, "int", null, false, 8, null, "float", null, false, 9, null, "string", null, false, 10, null, "bool", null, false, 11, null ]
+selected = 0
+
+[connection signal="pressed" from="Button_delete" to="." method="_on_Button_delete_pressed"]
+[connection signal="text_changed" from="LineEdit_name" to="." method="_on_LineEdit_name_text_changed"]
+[connection signal="text_changed" from="LineEdit_value" to="." method="_on_LineEdit_value_text_changed"]
+[connection signal="value_changed" from="SpinBox_int_value" to="." method="_on_SpinBox_int_value_value_changed"]
+[connection signal="value_changed" from="SpinBox_float_value" to="." method="_on_SpinBox_float_value_value_changed"]
+[connection signal="toggled" from="CheckBox" to="." method="_on_CheckBox_toggled"]
+[connection signal="item_selected" from="OptionButton" to="." method="_on_OptionButton_item_selected"]

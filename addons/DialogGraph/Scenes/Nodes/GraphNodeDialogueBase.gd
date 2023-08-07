@@ -11,7 +11,7 @@ var row_links = []
 var row_parent:int
 
 func get_type() -> String:
-	return "null"
+	return "override get_type() function"
 
 func _on_close_request():
 	print("%s _on_close_request"%[get_class()])

@@ -65,6 +65,9 @@ func show_popup(pos:Vector2):
 	
 	cursor_pos = pos
 
+func set_mode_load_tree(new):
+	if DialogueManager._debug_print: print("%s set_mode_load_tree(new:%s)"%[_print, new])
+	mode_load_tree = new
 
 func update_ui():
 	if debug_print: print("%s update_ui()"%[_print])
@@ -78,7 +81,9 @@ func update_ui():
 		get_node(graph_editor).visible = true
 
 func save_tree():
-	if mode_load_tree: return
+	if mode_load_tree: 
+		if DialogueManager._debug_print: print("%s  save_tree() mode_load_tree - return"%[_print])
+		return
 	if debug_print: print("%s save_tree()"%[_print])
 	var copy_tree_variables = {}
 	if tree.has("Variables"):
@@ -172,28 +177,21 @@ func add_node_to_tree(node, node_name) -> int:
 func build_tree():
 	if debug_print: print("%s build_tree()"%[_print])
 	TreeRow2GraphNode.clear()
-	mode_load_tree = true
+	set_mode_load_tree(true)
 	tree = load_tree_from_json()
 #	rows_added is {row_index(int): node}
 	var graph_editor_node:GraphEdit = get_node(graph_editor)
 
 #	Variables
 	for var_slot_name in tree["Variables"]:
+		if var_slot_name == "": continue
+		print("\t\tvar_slot_name:%s var_slot.value:%s var_slot.value type:%s"%[var_slot_name, tree["Variables"][var_slot_name], typeof(tree["Variables"][var_slot_name])])
 		var var_slot = load(scene_variable_slot).instance()
-		match typeof(tree["Variables"][var_slot_name]):
-			TYPE_BOOL: 
-				var_slot.set_name(var_slot_name)
-				var_slot.set_bool(tree["Variables"][var_slot_name])
-			TYPE_STRING:
-				var_slot.set_name(var_slot_name)
-				var_slot.set_string(tree["Variables"][var_slot_name])
-			TYPE_INT:
-				var_slot.set_name(var_slot_name)
-				var_slot.set_int(tree["Variables"][var_slot_name])
-			TYPE_REAL:
-				var_slot.set_name(var_slot_name)
-				var_slot.set_float(tree["Variables"][var_slot_name])
+		var elem = tree["Variables"][var_slot_name]
 		get_node(variable_slot_parent).add_child(var_slot)
+		var_slot.type = elem[1]
+		var_slot.set_value(elem[0])
+		var_slot.set_name(str(var_slot_name))
 
 #	Add to graph editor
 	for i in tree["Nodes"].size():
@@ -217,7 +215,7 @@ func build_tree():
 			TreeRow2GraphNode[int(link[0])].row_parent = i
 	
 	DialogueManager.set_tree(tree)
-	mode_load_tree = false
+	set_mode_load_tree(false)
 	if debug_print: print("%s build_tree() success"%[_print])
 
 func build_tree_build_node(i):
@@ -383,7 +381,9 @@ func _on_GraphEdit_disconnection_request(from, from_slot, to, to_slot):
 	save_tree()
 
 func _on_FileDialogNew_file_selected(path):
-	save_tree()
+	if current_tree_path != null:
+		save_tree()
+		tree = {}
 	var graph:GraphEdit = get_node(graph_editor)
 	graph.clear_connections()
 	
@@ -404,22 +404,32 @@ func _on_FileDialogOpen_file_selected(path):
 	if current_tree_path != null:
 		 save_tree()
 	var graph:GraphEdit = get_node(graph_editor)
-	graph.clear_connections()
 	
+#	Clear all connections
+	graph.clear_connections()
+
+#	Delete all Graph Nodes
 	for child in get_node(graph_editor).get_children():
 		if child is GraphNodeDialogueBase:
 			child.queue_free()
-	
+
+#	Delete all variable nodes
 	for child in get_node(variable_slot_parent).get_children():
 		child.queue_free()
-	
+
+#	Update path
 	current_tree_path = path
 	current_tree_name = current_tree_path.get_file()
+	
+#	Change visiblity
 	update_ui()
 	
+#	Build all Graph Nodes and variable slots
 	build_tree()
 
 
 func _on_Button_add_var_pressed():
 	var var_slot = load(scene_variable_slot).instance()
 	get_node(variable_slot_parent).add_child(var_slot)
+	if DialogueManager._debug_print:
+		print("%s _on_Button_add_var_pressed() tree['Variables']:%s"%[_print, tree['Variables']])

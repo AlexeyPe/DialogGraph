@@ -1,0 +1,76 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/DialogGraph/Scenes/Nodes/SetNode.gd" type="Script" id=1]
+
+[node name="SetNode" type="GraphNode"]
+margin_right = 180.0
+margin_bottom = 78.0
+rect_min_size = Vector2( 180, 70 )
+custom_constants/separation = 4
+title = "SetNode"
+show_close = true
+resizable = true
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color( 1, 1, 1, 1 )
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color( 1, 1, 1, 1 )
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color( 1, 1, 1, 1 )
+slot/1/right_enabled = false
+slot/1/right_type = 0
+slot/1/right_color = Color( 1, 1, 1, 1 )
+script = ExtResource( 1 )
+
+[node name="OptionButton" type="OptionButton" parent="."]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 164.0
+margin_bottom = 44.0
+text = "Variable"
+
+[node name="HBox" type="HBoxContainer" parent="."]
+margin_left = 16.0
+margin_top = 48.0
+margin_right = 164.0
+margin_bottom = 72.0
+
+[node name="OptionButton" type="OptionButton" parent="HBox"]
+margin_right = 45.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 45, 0 )
+text = "+="
+
+[node name="LineEdit_string" type="LineEdit" parent="HBox"]
+margin_left = 49.0
+margin_right = 148.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+placeholder_text = "value"
+
+[node name="SpinBox_int_value" type="SpinBox" parent="HBox"]
+visible = false
+margin_left = 111.0
+margin_right = 185.0
+margin_bottom = 24.0
+min_value = -1e+08
+max_value = 1e+08
+
+[node name="SpinBox_float_value" type="SpinBox" parent="HBox"]
+visible = false
+margin_left = 111.0
+margin_right = 185.0
+margin_bottom = 24.0
+min_value = -1e+08
+max_value = 1e+08
+step = 0.01
+
+[node name="CheckBox" type="CheckBox" parent="HBox"]
+visible = false
+margin_left = 124.0
+margin_right = 148.0
+margin_bottom = 24.0
+
+[connection signal="resize_request" from="." to="." method="_on_CommentNode_resize_request"]

@@ -8,7 +8,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_vertical = 3
 script = ExtResource( 1 )
-GraphNodesScenes = [ "res://addons/DialogGraph/Scenes/Nodes/TimelineHeadNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/DialogueNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/CommentNode.tscn" ]
+GraphNodesScenes = [ "res://addons/DialogGraph/Scenes/Nodes/TimelineHeadNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/DialogueNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/CommentNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/SetNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/IfNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/SignalNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/SignalNodePreviewTexture.tscn", "res://addons/DialogGraph/Scenes/Nodes/RandomNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/MatchNode.tscn" ]
 scene_variable_slot = "res://addons/DialogGraph/Scenes/variable_slot.tscn"
 variable_slot_parent = NodePath("MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer")
 popup_menu_nodes = NodePath("MarginContainer/VBoxContainer/HSplitContainer/GraphEdit/popup_menu_nodes")
@@ -62,6 +62,7 @@ mouse_default_cursor_shape = 2
 text = "Save Tree"
 
 [node name="btn_save_as_tree" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+visible = false
 margin_left = 159.0
 margin_right = 252.0
 margin_bottom = 24.0
@@ -69,13 +70,13 @@ mouse_default_cursor_shape = 2
 text = "Save As Tree"
 
 [node name="CheckBox-debug_print" type="CheckBox" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 256.0
-margin_right = 357.0
+margin_left = 159.0
+margin_right = 260.0
 margin_bottom = 24.0
 text = "debug print"
 
 [node name="Label_current_tree" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 361.0
+margin_left = 264.0
 margin_top = 5.0
 margin_right = 1014.0
 margin_bottom = 19.0
@@ -157,7 +158,7 @@ minimap_opacity = 0.7
 margin_right = 20.0
 margin_bottom = 20.0
 mouse_filter = 1
-items = [ "TimelineHeadNode", null, 0, false, false, 0, 0, null, "", false, "DialogueNode", null, 0, false, false, 1, 0, null, "", false, "CommentNode", null, 0, false, false, 2, 0, null, "", false ]
+items = [ "TimelineHeadNode", null, 0, false, false, 0, 0, null, "", false, "DialogueNode", null, 0, false, false, 1, 0, null, "", false, "CommentNode", null, 0, false, false, 2, 0, null, "", false, "SignalNode", null, 0, false, false, 3, 0, null, "", false, "SignalTexturePreviewNode", null, 0, false, false, 4, 0, null, "", false ]
 
 [node name="FileDialogOpen" type="FileDialog" parent="."]
 margin_left = 203.0

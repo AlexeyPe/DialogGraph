@@ -259,6 +259,7 @@ func delete_node(graph_node_name:String):
 		if connection['from'] == graph_node_name or connection['to'] == graph_node_name:
 			graph_editor_node.disconnect_node(connection['from'], connection['from_port'], connection['to'], connection['to_port'])
 	
+	graph_node.get_parent().remove_child(graph_node)
 	graph_node.queue_free()
 
 func zoom_lock(new:bool):

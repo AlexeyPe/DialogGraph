@@ -25,6 +25,9 @@ extends Node
 #		]
 #	}
 
+# Default signals are written in Editor.gd, row 41
+# export var default_signals:Array = ["on_texture_update"]
+
 const SupportVersions = 1
 const _print = "Addon:DialogueGraph, DialogueGraph.gd"
 const _debug_print:bool = true

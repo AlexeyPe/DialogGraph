@@ -38,6 +38,8 @@ export var FileDialogNew:NodePath
 export var FileDialogSaveAs:NodePath
 export var workspace_node:NodePath
 
+export var default_signals:Array = ["on_texture_update"]
+
 var debug_print:bool = true
 
 var GraphNodeName2GraphNodeScene = {}
@@ -397,9 +399,16 @@ func _on_FileDialogNew_file_selected(path):
 	
 	current_tree_path = path
 	current_tree_name = current_tree_path.get_file()
-	update_ui()
+	update_ui() 
+#	create tree and save
 	save_tree()
-
+#	add variables to tree
+	for _signal in default_signals:
+		tree["Variables"][_signal] = ["","signal"]
+#	save new tree
+	save_tree()
+#	build new tree
+	build_tree()
 
 func _on_FileDialogOpen_file_selected(path):
 	if current_tree_path != null:

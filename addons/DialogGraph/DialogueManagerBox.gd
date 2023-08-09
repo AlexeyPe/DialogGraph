@@ -2,6 +2,8 @@ tool
 extends Control
 class_name DialogueManagerBox
 
+const _print = "Addon:DialogueGraph, DialogueNode.gd"
+
 var current_row_data:DialogueManager.RowData
 
 # Main
@@ -22,6 +24,8 @@ export var button_close:NodePath
 
 # Shows this button when all options are "" or null
 export var button_empty:NodePath
+
+export var texture:NodePath
 
 func _get(property):
 	match property:
@@ -71,8 +75,17 @@ func on_button_empty_pressed():
 	else:
 		DialogueManager.run_from_row(current_row_data.row_links[0])
 
+func on_texture_update(img_path:String):
+	if DialogueManager._debug_print:
+		print("%s on_texture_update(img_path:%s)"%[_print, img_path])
+
 func _ready():
 	DialogueManager.connect("on_run_row", self, "on_run_row")
+	if DialogueManager.has_signal("on_texture_update"):
+		print("%s _ready() DialogueManager has_signal on_texture_update - connect"%[_print])
+		DialogueManager.connect("on_texture_update", self, "on_texture_update")
+	else:
+		print("%s _ready() DialogueManager !has_signal on_texture_update"%[_print])
 	get_node(button_1).connect("pressed", self, "on_button_1_pressed")
 	get_node(button_2).connect("pressed", self, "on_button_2_pressed")
 	get_node(button_3).connect("pressed", self, "on_button_3_pressed")

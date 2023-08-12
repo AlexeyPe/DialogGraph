@@ -60,9 +60,9 @@ signal on_toggle_debug_print(new, old)
 var load_tree:bool = false
 var tree:Dictionary
 
-var tree_signals:Array
-# has_user_signal does not work..(
-var added_signals:Array = []
+var tree_signals:Array = []
+var tree_varibales_without_signals:Array = []
+
 
 func set_debug_print(new:bool):
 	var old = _debug_print
@@ -95,12 +95,16 @@ func set_tree(new_tree:Dictionary):
 	tree = new_tree
 	
 	tree_signals = []
+	tree_varibales_without_signals = []
 	
 	
 	for variable_name in tree["Variables"].keys():
+		if variable_name == "": continue
 		var variable_type:String = tree["Variables"][variable_name][1]
 		if variable_type == "signal":
 			tree_signals.append(variable_name)
+		else:
+			tree_varibales_without_signals.append(variable_name)
 	
 	if _debug_print: print("%s set_tree(new_tree) success"%[_print])
 

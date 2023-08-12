@@ -185,6 +185,7 @@ func build_tree():
 	TreeRow2GraphNode.clear()
 	set_mode_load_tree(true)
 	tree = load_tree_from_json()
+	DialogueManager.set_tree(tree)
 #	rows_added is {row_index(int): node}
 	var graph_editor_node:GraphEdit = get_node(graph_editor)
 
@@ -214,7 +215,6 @@ func build_tree():
 			graph_editor_node.connect_node(TreeRow2GraphNode[i].name, link[1], TreeRow2GraphNode[int(link[0])].name, link[2])
 			TreeRow2GraphNode[int(link[0])].row_parent = i
 	
-	DialogueManager.set_tree(tree)
 	set_mode_load_tree(false)
 	if DialogueManager._debug_print: print("%s build_tree() success"%[_print])
 

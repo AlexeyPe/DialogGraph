@@ -25,7 +25,11 @@ func get_instructions() -> Array:
 	var result = []
 	return result
 
+func _on_dragged(from:Vector2, to:Vector2):
+	get_parent().owner.save_tree()
+
 func _ready():
+	connect("dragged", self, "_on_dragged")
 	connect("close_request", self, "_on_close_request")
 	if get_parent() is GraphEdit:
 		get_parent().owner.save_tree()

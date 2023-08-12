@@ -2,7 +2,7 @@ tool
 extends Control
 class_name DialogueManagerBox
 
-const _print = "Addon:DialogueGraph, DialogueNode.gd"
+const _print = "Addon:DialogueGraph, DialogueManagerBox.gd"
 
 var current_row_data:DialogueManager.RowData
 
@@ -79,13 +79,18 @@ func on_texture_update(img_path:String):
 	if DialogueManager._debug_print:
 		print("%s on_texture_update(img_path:%s)"%[_print, img_path])
 
+func on_emit_custom_signal(signal_name:String, signal_data:Dictionary):
+	if signal_name != "on_texture_update": return
+	if DialogueManager._debug_print: print("%s on_emit_signal(signal_name:%s, signal_data:%s)"%[_print, signal_name, signal_data])
+	if !signal_data.has("img_path"): 
+		printerr("%s on_emit_signal(signal_name:%s, signal_data:%s) signal_data !has('img_path')"%[_print, signal_name, signal_data])
+		return
+	var new_texture = load(signal_data["img_path"])
+	$"../MarginContainer/VBoxContainer/TextureRect".texture = new_texture
+
 func _ready():
 	DialogueManager.connect("on_run_row", self, "on_run_row")
-	if DialogueManager.has_signal("on_texture_update"):
-		print("%s _ready() DialogueManager has_signal on_texture_update - connect"%[_print])
-		DialogueManager.connect("on_texture_update", self, "on_texture_update")
-	else:
-		print("%s _ready() DialogueManager !has_signal on_texture_update"%[_print])
+	DialogueManager.connect("on_emit_custom_signal", self, "on_emit_custom_signal")
 	get_node(button_1).connect("pressed", self, "on_button_1_pressed")
 	get_node(button_2).connect("pressed", self, "on_button_2_pressed")
 	get_node(button_3).connect("pressed", self, "on_button_3_pressed")

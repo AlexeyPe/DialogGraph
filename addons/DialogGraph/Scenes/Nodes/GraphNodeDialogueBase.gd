@@ -15,8 +15,8 @@ func get_type() -> String:
 
 func _on_close_request():
 	print("%s _on_close_request"%[get_class()])
-	get_parent().owner.delete_node(name)
-	get_parent().owner.save_tree()
+	get_parent().owner.on_delete_node_request(name)
+#	get_parent().owner.save_tree()
 
 func set_instructions(instructions:Array):
 	pass

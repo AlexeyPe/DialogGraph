@@ -18,6 +18,8 @@ FileDialogOpen = NodePath("FileDialogOpen")
 FileDialogNew = NodePath("FileDialogNew")
 FileDialogSaveAs = NodePath("FileDialogSaveAs")
 workspace_node = NodePath("MarginContainer/VBoxContainer/HSplitContainer")
+dialogue_box_test = NodePath("CenterContainer/DialogueBoxEditor")
+default_signals = [ "on_texture_update", "test" ]
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0

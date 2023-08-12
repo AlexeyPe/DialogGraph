@@ -12,8 +12,8 @@ font_data = ExtResource( 2 )
 
 [node name="DialogueNode" type="GraphNode"]
 margin_right = 192.0
-margin_bottom = 219.0
-rect_min_size = Vector2( 140, 240 )
+margin_bottom = 199.0
+rect_min_size = Vector2( 140, 120 )
 custom_constants/separation = 4
 title = "DialogueNode"
 show_close = true
@@ -156,7 +156,7 @@ placeholder_text = "Speaker"
 margin_left = 16.0
 margin_top = 81.0
 margin_right = 176.0
-margin_bottom = 234.0
+margin_bottom = 193.0
 hint_tooltip = "The dialogue displayed in the DialogueBox.
 Use [bbcodes] to add extra effects to your dialogue."
 size_flags_vertical = 3

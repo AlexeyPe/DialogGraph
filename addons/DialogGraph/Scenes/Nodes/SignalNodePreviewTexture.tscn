@@ -1,10 +1,11 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://addons/DialogGraph/Scenes/Nodes/SignalNodePreviewTexture.gd" type="Script" id=1]
+[ext_resource path="res://addons/DialogGraph/imgs/icons8-close-94-min.png" type="Texture" id=2]
 
 [node name="SignalNodePreviewTexture" type="GraphNode"]
 margin_right = 220.0
-margin_bottom = 133.0
+margin_bottom = 117.0
 rect_min_size = Vector2( 220, 100 )
 custom_constants/separation = 5
 title = "SignalNodePreviewTexture"
@@ -29,13 +30,16 @@ slot/2/right_enabled = false
 slot/2/right_type = 0
 slot/2/right_color = Color( 1, 1, 1, 1 )
 script = ExtResource( 1 )
+texture_error = ExtResource( 2 )
 
 [node name="OptionButton" type="OptionButton" parent="."]
 margin_left = 16.0
 margin_top = 24.0
 margin_right = 204.0
 margin_bottom = 44.0
-text = "signal"
+text = "on_texture_update"
+items = [ "on_texture_update", null, false, 0, null, "test", null, false, 1, null ]
+selected = 0
 
 [node name="LineEdit" type="LineEdit" parent="."]
 margin_left = 16.0
@@ -48,9 +52,13 @@ placeholder_text = "String image path"
 margin_left = 16.0
 margin_top = 78.0
 margin_right = 204.0
-margin_bottom = 127.0
+margin_bottom = 111.0
 size_flags_vertical = 3
+texture = ExtResource( 2 )
 expand = true
 stretch_mode = 6
 
-[connection signal="resize_request" from="." to="." method="_on_CommentNode_resize_request"]
+[connection signal="resize_request" from="." to="." method="_on_SignalNodePreviewTexture_resize_request"]
+[connection signal="button_down" from="OptionButton" to="." method="_on_OptionButton_button_down"]
+[connection signal="focus_exited" from="LineEdit" to="." method="_on_LineEdit_focus_exited"]
+[connection signal="text_entered" from="LineEdit" to="." method="_on_LineEdit_text_entered"]

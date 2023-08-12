@@ -37,10 +37,9 @@ export var FileDialogOpen:NodePath
 export var FileDialogNew:NodePath
 export var FileDialogSaveAs:NodePath
 export var workspace_node:NodePath
+export var dialogue_box_test:NodePath
 
 export var default_signals:Array = ["on_texture_update"]
-
-var debug_print:bool = true
 
 var GraphNodeName2GraphNodeScene = {}
 var GraphNodeScene2GraphNodeName = {} # Scene is path
@@ -60,7 +59,7 @@ var request_node_slot
 var mode_load_tree:bool = false
 
 func show_popup(pos:Vector2):
-	if debug_print: print("%s show_popup(pos:%s)"%[_print, pos])
+	if DialogueManager._debug_print: print("%s show_popup(pos:%s)"%[_print, pos])
 	var graph = get_node(graph_editor)
 	var popup_menu_nodes_node:PopupMenu = get_node(popup_menu_nodes)
 	popup_menu_nodes_node.popup(Rect2(pos.x, pos.y, popup_menu_nodes_node.rect_size.x, popup_menu_nodes_node.rect_size.y))
@@ -72,7 +71,11 @@ func set_mode_load_tree(new):
 	mode_load_tree = new
 
 func update_ui():
-	if debug_print: print("%s update_ui()"%[_print])
+	if DialogueManager._debug_print:
+		print("%s update_ui()"%[_print])
+		$"MarginContainer/VBoxContainer/HBoxContainer/CheckBox-debug_print".pressed = true
+	else:
+		$"MarginContainer/VBoxContainer/HBoxContainer/CheckBox-debug_print".pressed = false
 	get_node(label_current_tree).text = "current tree: %s"%[current_tree_name]
 	if current_tree_name == null:
 		get_node(graph_editor).visible = false
@@ -86,7 +89,7 @@ func save_tree():
 	if mode_load_tree: 
 		if DialogueManager._debug_print: print("%s  save_tree() mode_load_tree - return"%[_print])
 		return
-	if debug_print: print("%s save_tree()"%[_print])
+	if DialogueManager._debug_print: print("%s save_tree()"%[_print])
 	var copy_tree_variables = {}
 	if tree.has("Variables"):
 		copy_tree_variables = tree["Variables"]
@@ -94,10 +97,10 @@ func save_tree():
 	tree["Variables"] = copy_tree_variables
 	save_tree_to_json()
 	DialogueManager.set_tree(tree)
-	if debug_print: print("%s save_tree() success"%[_print])
+	if DialogueManager._debug_print: print("%s save_tree() success"%[_print])
 
 func make_tree():
-	if debug_print: print("%s make_tree()"%[_print])
+	if DialogueManager._debug_print: print("%s make_tree()"%[_print])
 	GraphNodeName2TreeRow.clear()
 	var graph_editor_node = get_node(graph_editor)
 	tree = {
@@ -159,11 +162,11 @@ func make_tree():
 			if !GraphNodeName2TreeRow.has(child.name):
 				add_node_to_tree(child, child.name)
 	
-	if debug_print: print("%s make_tree() success"%[_print])
+	if DialogueManager._debug_print: print("%s make_tree() success"%[_print])
 
 # return - index in tree["Nodes"]
 func add_node_to_tree(node, node_name) -> int:
-	if debug_print: print("%s add_node_to_tree(node:%s, node_name:%s)"%[_print, node, node_name])
+	if DialogueManager._debug_print: print("%s add_node_to_tree(node:%s, node_name:%s)"%[_print, node, node_name])
 	var node_index:int
 	if node is GraphNodeDialogueBase:
 		if GraphNodeName2TreeRow.has(node_name):
@@ -172,12 +175,13 @@ func add_node_to_tree(node, node_name) -> int:
 		else:
 			node_index = tree["Nodes"].size()
 			node.row = node_index
-			tree["Nodes"].append([ [], node.rect_min_size, node.offset, tree["NodeTypes"].find(node.get_type()), node.get_instructions()])
-	if debug_print: print("%s add_node_to_tree(node:%s, node_name:%s) success"%[_print, node, node_name])
+			print("\t\t\tadd_node_to_tree(node:%s, node_name:%s)"%[node, node_name])
+			tree["Nodes"].append([ [], node.rect_size, node.offset, tree["NodeTypes"].find(node.get_type()), node.get_instructions()])
+	if DialogueManager._debug_print: print("%s add_node_to_tree(node:%s, node_name:%s) success"%[_print, node, node_name])
 	return node_index
 
 func build_tree():
-	if debug_print: print("%s build_tree()"%[_print])
+	if DialogueManager._debug_print: print("%s build_tree()"%[_print])
 	TreeRow2GraphNode.clear()
 	set_mode_load_tree(true)
 	tree = load_tree_from_json()
@@ -187,7 +191,7 @@ func build_tree():
 #	Variables
 	for var_slot_name in tree["Variables"]:
 		if var_slot_name == "": continue
-		print("\t\tvar_slot_name:%s var_slot.value:%s var_slot.value type:%s"%[var_slot_name, tree["Variables"][var_slot_name], typeof(tree["Variables"][var_slot_name])])
+#		print("\t\tvar_slot_name:%s var_slot.value:%s var_slot.value type:%s"%[var_slot_name, tree["Variables"][var_slot_name], typeof(tree["Variables"][var_slot_name])])
 		var var_slot = load(scene_variable_slot).instance()
 		var elem = tree["Variables"][var_slot_name]
 		get_node(variable_slot_parent).add_child(var_slot)
@@ -207,34 +211,30 @@ func build_tree():
 #		[links:[ [index, from_port, to_port] ], node.rect_min_size:Vector2, node.offset:Vector2, node_type_index:int, instructions:[?] ]
 #		[ [[int, int, int]], Vector2, Vector2, int, [?] ]
 		for link in tree["Nodes"][i][0]:
-#			print("link %s"%[link])
-#			print("TreeRow2GraphNode[str(i)].name ", TreeRow2GraphNode[i].name)
-#			print("link[1] ", link[1])
-#			print("TreeRow2GraphNode ", TreeRow2GraphNode)
-#			print("TreeRow2GraphNode[str(link[0])].name ", TreeRow2GraphNode[int(link[0])].name)
-#			print("link[2] ", link[2])
 			graph_editor_node.connect_node(TreeRow2GraphNode[i].name, link[1], TreeRow2GraphNode[int(link[0])].name, link[2])
 			TreeRow2GraphNode[int(link[0])].row_parent = i
 	
 	DialogueManager.set_tree(tree)
 	set_mode_load_tree(false)
-	if debug_print: print("%s build_tree() success"%[_print])
+	if DialogueManager._debug_print: print("%s build_tree() success"%[_print])
 
 func build_tree_build_node(i):
-	if debug_print: print("%s build_tree_build_node(i:%s)"%[_print, i])
+	if DialogueManager._debug_print: print("%s build_tree_build_node(i:%s)"%[_print, i])
 	var node_row = tree["Nodes"][i]
 #	[links:[ [index, from_port, to_port] ], node.rect_min_size:Vector2, node.offset:Vector2, node_type_index:int, instructions:[?] ]
 #	[ [[int, int, int]], Vector2, Vector2, int, [?] ]
 	var node:GraphNodeDialogueBase = load( GraphNodeName2GraphNodeScene[ tree["NodeTypes"][node_row[3]] ]).instance()
 	get_node(graph_editor).add_child(node)
-	node.rect_min_size = str2var("Vector2" + node_row[1])
+	var new_size:Vector2 = str2var("Vector2" + node_row[1])
+#	print("\t\t\tnew_size ",new_size)
+	node.rect_size = new_size
 	node.offset = str2var("Vector2" + node_row[2])
 	node.row = i
 	node.row_links = []
 	for link in node_row[0]:
 		node.row_links.append(link[0])
 	node.set_instructions(node_row[4])
-	print(node)
+#	print(node)
 	return node
 
 func save_tree_to_json():
@@ -252,8 +252,12 @@ func load_tree_from_json() -> Dictionary:
 	file.close()
 	return result
 
+func on_delete_node_request(graph_node_name:String):
+	delete_node(graph_node_name)
+	save_tree()
+
 func delete_node(graph_node_name:String):
-	if debug_print: print("%s graph_node(graph_node:%s)"%[_print, graph_node_name])
+	if DialogueManager._debug_print: print("%s delete_node(graph_node_name:%s)"%[_print, graph_node_name])
 	var graph_editor_node = get_node(graph_editor)
 	var graph_node = graph_editor_node.get_node(graph_node_name)
 	
@@ -270,9 +274,13 @@ func zoom_lock(new:bool):
 	else:
 		get_node(graph_editor).zoom_step = 1.1
 	
+func on_toggle_debug_print(new:bool, old:bool):
+	update_ui()
 
 func _ready():
 	print("%s _ready()"%[_print])
+	DialogueManager.connect("on_toggle_debug_print", self, "on_toggle_debug_print")
+	get_node(dialogue_box_test).visible = false
 	var popup_menu_nodes_node:PopupMenu = get_node(popup_menu_nodes)
 	popup_menu_nodes_node.clear()
 #	Names in the popup window are set here, this is the name of the graph nodes
@@ -283,44 +291,44 @@ func _ready():
 		GraphNodeScene2GraphNodeName[graph_node] = graph_node_name
 		popup_menu_nodes_node.add_item(graph_node_name)
 		graph_node_types.append(graph_node_name)
-	print("%s _ready() add graph_node types %s"%[_print, graph_node_types])
+	if DialogueManager._debug_print: print("%s _ready() add graph_node types %s"%[_print, graph_node_types])
 	update_ui()
 	
 	print("%s _ready() success"%[_print])
 
 
 func _on_btn_new_tree_pressed():
-	if debug_print: print("%s _on_btn_new_tree_pressed()"%[_print])
+	if DialogueManager._debug_print: print("%s _on_btn_new_tree_pressed()"%[_print])
 	var file_dialog:FileDialog = get_node(FileDialogNew)
 	file_dialog.popup_centered()
 
 func _on_btn_open_tree_pressed():
-	if debug_print: print("%s _on_btn_open_tree_pressed()"%[_print])
+	if DialogueManager._debug_print: print("%s _on_btn_open_tree_pressed()"%[_print])
 	var file_dialog_open:FileDialog = get_node(FileDialogOpen)
 	file_dialog_open.popup_centered()
 
 func _on_btn_save_as_tree_pressed():
-	if debug_print: print("%s _on_btn_save_as_tree_pressed()"%[_print])
+	if DialogueManager._debug_print: print("%s _on_btn_save_as_tree_pressed()"%[_print])
 
 
 func _on_btn_save_tree_pressed():
-	if debug_print: print("%s _on_btn_save_tree_pressed()"%[_print])
+	if DialogueManager._debug_print: print("%s _on_btn_save_tree_pressed()"%[_print])
 
 
 func _on_CheckBoxdebug_print_toggled(button_pressed):
 	print("%s _on_CheckBoxdebug_print_toggled(button_pressed:%s)"%[_print, button_pressed])
-	debug_print = button_pressed
+	DialogueManager.set_debug_print(button_pressed)
 	var graph:GraphEdit = get_node(graph_editor)
 	print(tree)
 
 
 func _on_GraphEdit_popup_request(position):
-	if debug_print: print("%s _on_GraphEdit_popup_request(position:%s)"%[_print, position])
+	if DialogueManager._debug_print: print("%s _on_GraphEdit_popup_request(position:%s)"%[_print, position])
 	show_popup(position)
 
 
 func _on_popup_menu_nodes_id_pressed(id):
-	if debug_print: print("%s _on_popup_menu_nodes_id_pressed(id:%s(%s))"%[_print, id, GraphNodeScene2GraphNodeName[GraphNodesScenes[id]]])
+	if DialogueManager._debug_print: print("%s _on_popup_menu_nodes_id_pressed(id:%s(%s))"%[_print, id, GraphNodeScene2GraphNodeName[GraphNodesScenes[id]]])
 	var graph_node:GraphNode = load(GraphNodesScenes[id]).instance()
 	var graph = get_node(graph_editor)
 	graph.add_child(graph_node)
@@ -340,14 +348,14 @@ func _on_popup_menu_nodes_id_pressed(id):
 	save_tree()
 
 func _on_GraphEdit_connection_to_empty(from, from_slot, release_position):
-	if debug_print: print("%s _on_GraphEdit_connection_to_empty(from:%s, from_slot:%s, release_position:%s)"%[_print, from, from_slot, release_position])
+	if DialogueManager._debug_print: print("%s _on_GraphEdit_connection_to_empty(from:%s, from_slot:%s, release_position:%s)"%[_print, from, from_slot, release_position])
 	request_node = from
 	request_node_slot = from_slot
 	show_popup(release_position + get_node(graph_editor).rect_global_position)
 
 
 func _on_GraphEdit_delete_nodes_request(nodes):
-	if debug_print: print("%s _on_GraphEdit_delete_nodes_request(nodes:%s)"%[_print, nodes])
+	if DialogueManager._debug_print: print("%s _on_GraphEdit_delete_nodes_request(nodes:%s)"%[_print, nodes])
 	var graph_editor_node:GraphEdit = get_node(graph_editor)
 	for graph_node in nodes:
 		delete_node(graph_node)
@@ -364,7 +372,7 @@ func remove_connection(from, from_slot, to):
 				)
 
 func _on_GraphEdit_connection_request(from, from_slot, to, to_slot):
-	if debug_print: print("%s _on_GraphEdit_connection_request(from:%s, from_slot:%s, to:%s, to_slot:%s)"%[_print, from, from_slot, to, to_slot])
+	if DialogueManager._debug_print: print("%s _on_GraphEdit_connection_request(from:%s, from_slot:%s, to:%s, to_slot:%s)"%[_print, from, from_slot, to, to_slot])
 	if from == to: return
 	var graph_editor_node:GraphEdit = get_node(graph_editor)
 	
@@ -377,7 +385,7 @@ func _on_GraphEdit_connection_request(from, from_slot, to, to_slot):
 	save_tree()
 
 func _on_GraphEdit_disconnection_request(from, from_slot, to, to_slot):
-	if debug_print: print("%s _on_GraphEdit_connection_request(from:%s, from_slot:%s, to:%s, to_slot:%s)"%[_print, from, from_slot, to, to_slot])
+	if DialogueManager._debug_print: print("%s _on_GraphEdit_connection_request(from:%s, from_slot:%s, to:%s, to_slot:%s)"%[_print, from, from_slot, to, to_slot])
 	var graph_editor_node:GraphEdit = get_node(graph_editor)
 	graph_editor_node.disconnect_node(from, from_slot, to, to_slot)
 	

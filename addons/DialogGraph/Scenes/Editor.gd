@@ -180,6 +180,7 @@ func add_node_to_tree(node, node_name) -> int:
 	if DialogueManager._debug_print: print("%s add_node_to_tree(node:%s, node_name:%s) success"%[_print, node, node_name])
 	return node_index
 
+
 func build_tree():
 	if DialogueManager._debug_print: print("%s build_tree()"%[_print])
 	TreeRow2GraphNode.clear()
@@ -276,6 +277,7 @@ func zoom_lock(new:bool):
 	
 func on_toggle_debug_print(new:bool, old:bool):
 	update_ui()
+
 
 func _ready():
 	print("%s _ready()"%[_print])

@@ -83,8 +83,6 @@ margin_bottom = 249.0
 size_flags_horizontal = 3
 size_flags_vertical = 5
 bbcode_enabled = true
-bbcode_text = "test s 2"
-text = "test s 2"
 fit_content_height = true
 
 [node name="description" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
@@ -94,8 +92,6 @@ margin_bottom = 270.0
 size_flags_horizontal = 3
 size_flags_vertical = 7
 bbcode_enabled = true
-bbcode_text = "test desc 5-2"
-text = "test desc 5-2"
 fit_content_height = true
 
 [node name="Button_empty" type="Button" parent="MarginContainer/VBoxContainer"]

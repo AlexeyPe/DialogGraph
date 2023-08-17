@@ -8,6 +8,8 @@ var current_row_data:DialogueManager.RowData
 
 # Main
 export var root_node:NodePath
+export var reset_variables_when_close:bool
+export var reset_variables_when_end_timeline:bool
 
 # Text
 export var rich_text_speaker:NodePath
@@ -88,9 +90,15 @@ func on_emit_custom_signal(signal_name:String, signal_data:Dictionary):
 	var new_texture = load(signal_data["img_path"])
 	$"../MarginContainer/VBoxContainer/TextureRect".texture = new_texture
 
+func on_timeline_end(timeline_name:String):
+	get_node(root_node).visible = false
+	pass
+
 func _ready():
 	DialogueManager.connect("on_run_row", self, "on_run_row")
 	DialogueManager.connect("on_emit_custom_signal", self, "on_emit_custom_signal")
+	DialogueManager.connect("on_timeline_end", self, "on_timeline_end")
+	
 	get_node(button_1).connect("pressed", self, "on_button_1_pressed")
 	get_node(button_2).connect("pressed", self, "on_button_2_pressed")
 	get_node(button_3).connect("pressed", self, "on_button_3_pressed")

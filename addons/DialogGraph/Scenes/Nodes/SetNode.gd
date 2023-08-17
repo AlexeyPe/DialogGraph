@@ -23,22 +23,21 @@ func get_instructions() -> Array:
 	var variable_operation = $HBox/Operation.text
 	var variable_value = null
 	if variable_name == "Variable":
-		result.append(variable_name)
-		result.append(variable_value)
-		result.append(variable_operation)
+		result.append(null)
+		result.append(null)
+		result.append(null)
 		return result
 	var variable_type = DialogueManager.tree['Variables'][variable_name][1]
 	match variable_type:
-		"bool": 
-			print("$HBox/CheckBox.pressed ", $HBox/CheckBox.pressed)
-			variable_value = $HBox/CheckBox.pressed
+		"bool": variable_value = $HBox/CheckBox.pressed
 		"string": variable_value = $HBox/LineEdit_string.text
 		"int": variable_value = $HBox/SpinBox_int_value.value
 		"float": variable_value = $HBox/SpinBox_float_value.value
 	
 	result.append(variable_name)
 	result.append(variable_value)
-	result.append(variable_operation)
+	if variable_operation != "Select Variable": result.append(variable_operation)
+	else: result.append(null)
 	return result
 
 func set_instructions(instructions:Array):
@@ -48,9 +47,12 @@ func set_instructions(instructions:Array):
 	var variable_name = instructions[0]
 	var variable_value = instructions[1]
 	var variable_operation = instructions[2]
-	print("hahahahhaha\t\t", DialogueManager.tree, "\t", variable_name)
+	
+	if variable_name == null: return
 	$Variable.text = variable_name
-	if variable_name == "Variable": return
+	if variable_operation == null: return
+	$HBox/Operation.text = variable_operation
+	if variable_value == null: return
 	var variable_type = DialogueManager.tree['Variables'][variable_name][1]
 	match variable_type:
 		"bool": $HBox/CheckBox.pressed = variable_value
@@ -108,6 +110,8 @@ func _on_Variable_item_selected(index):
 func _on_Variable_focus_exited():
 	if $Variable.text == "":
 		$Variable.text = "Variable"
+		$HBox/Operation.clear()
+		$HBox/Operation.text = "Select Variable"
 
 func mouse_enter():
 	get_parent().owner.zoom_lock(true)
@@ -116,7 +120,7 @@ func mouse_exit():
 	get_parent().owner.zoom_lock(false)
 
 func focus_exit():
-	print("focus_exit")
+	print("focus_exit, value int ", $HBox/SpinBox_int_value.value)
 	get_parent().owner.save_tree()
 
 func _on_Operation_item_selected(index):
@@ -127,6 +131,12 @@ func _on_Operation_item_selected(index):
 			match $HBox/Operation.text:
 				"inverting": $HBox/CheckBox.visible = false
 				"=": $HBox/CheckBox.visible = true
+		"int":
+			if $HBox/Operation.text == "abs": $HBox/SpinBox_int_value.visible = false
+			else: $HBox/SpinBox_int_value.visible = true
+		"float":
+			if $HBox/Operation.text == "abs": $HBox/SpinBox_float_value.visible = false
+			else: $HBox/SpinBox_float_value.visible = true
 	get_parent().owner.save_tree()
 
 

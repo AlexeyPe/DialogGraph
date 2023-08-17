@@ -4,6 +4,10 @@ extends Node
 # Is singltone
 var _debug_print:bool = true setget set_debug_print
 
+# There is a singleton and a dialog editor. 
+# Dialog editor creates and saves json, the idea of singleton is independent of the editor, 
+# singleton can ideally exist without an editor and his duties are only to read json and say what to do
+
 #	To find out about the node code, check Scenes/Nodes/...
 #	New nodes are added via Scenes/Editor.tscn/Editor(root)/GraphNodesScenes:[path]
 
@@ -55,7 +59,8 @@ signal on_delete_variable(variable_name, variable_value, variable_type)
 # signal_name:String, signal_data:Dictionary
 signal on_emit_custom_signal(signal_name, signal_data)
 signal on_toggle_debug_print(new, old)
-
+signal update_editor_variable(var_name, var_value)
+signal on_timeline_end(timeline_name)
 
 var load_tree:bool = false
 var tree:Dictionary
@@ -63,6 +68,7 @@ var tree:Dictionary
 var tree_signals:Array = []
 var tree_varibales_without_signals:Array = []
 
+var current_timeline:String
 
 func set_debug_print(new:bool):
 	var old = _debug_print
@@ -122,8 +128,12 @@ func run_from_row(row_id:int):
 	match tree['NodeTypes'][_row_data[3]]:
 		"TimelineHeadNode": 
 #			_row_data[4] = [head_name:String]
+			current_timeline = _row_data[4][0]
 			emit_signal("on_run_timeline_head", _row_data[4][0])
-			run_from_row(_row_data[0][0][0])
+			if _row_data[0].empty():
+				emit_signal("on_timeline_end", current_timeline)
+			else:
+				run_from_row(_row_data[0][0][0])
 		"DialogueNode":
 #			_row_data[4] = [speaker:String, text:String, option1:String, option2:String, option3:String, option4:String]
 			var speaker:String = _row_data[4][0]
@@ -145,12 +155,36 @@ func run_from_row(row_id:int):
 #			_row_data[4] = [ signal_name:String, signal_data:Dictionary ]
 #			signal_data = {img_path:String}
 			emit_signal("on_emit_custom_signal", _row_data[4][0], _row_data[4][1])
-			run_from_row(_row_data[0][0][0])
+			if _row_data[0].empty():
+				emit_signal("on_timeline_end", current_timeline)
+			else:
+				run_from_row(_row_data[0][0][0])
 		"SignalNode":
 #			_row_data[4] = [ signal_name:String, signal_data:Dictionary ]
 			emit_signal("on_emit_custom_signal", _row_data[4][0], _row_data[4][1])
-			run_from_row(_row_data[0][0][0])
-	pass
+			if _row_data[0].empty():
+				emit_signal("on_timeline_end", current_timeline)
+			else:
+				run_from_row(_row_data[0][0][0])
+		"SetNode":
+			print("%s SetNode variabe %s:%s"%[_print, _row_data[4][0], tree["Variables"][_row_data[4][0]] ])
+#			_row_data[4] = [ variable:String, value:Variant, operation:String ]
+#			variable - key for tree["Variables"]
+#			value - bool/int/float/string
+			match _row_data[4][2]:
+				"=": tree["Variables"][_row_data[4][0]][0] = _row_data[4][1]
+				"+=": tree["Variables"][_row_data[4][0]][0] += _row_data[4][1]
+				"-=": tree["Variables"][_row_data[4][0]][0] -= _row_data[4][1]
+				"*=": tree["Variables"][_row_data[4][0]][0] *= _row_data[4][1]
+				"/=": tree["Variables"][_row_data[4][0]][0] /= _row_data[4][1]
+				"%=": tree["Variables"][_row_data[4][0]][0] %= _row_data[4][1]
+				"abs": tree["Variables"][_row_data[4][0]][0] = abs(tree["Variables"][_row_data[4][0]][0])
+				"inverting": tree["Variables"][_row_data[4][0]] != tree["Variables"][_row_data[4][0]][0]
+			emit_signal("update_editor_variable", _row_data[4][0], tree["Variables"][_row_data[4][0]][0])
+			if _row_data[0].empty():
+				emit_signal("on_timeline_end", current_timeline)
+			else:
+				run_from_row(_row_data[0][0][0])
 
 func run_from_timeline_head(timeline_head:String):
 	if _debug_print: print("%s"%[_print])

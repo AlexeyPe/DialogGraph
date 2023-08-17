@@ -8,9 +8,15 @@ var type:String
 
 var name_before_focus:String
 
+func on_update_editor_variable(var_name:String, var_value):
+	print("%s on_update_editor_variable(var_name:%s, var_value:%s)"%[_print, var_name, var_value])
+	if var_name == $LineEdit_name.text:
+		set_value(var_value)
+
 func _ready():
 	if DialogueManager.load_tree:
 		print("%s _ready()"%[_print])
+	DialogueManager.connect("update_editor_variable", self, "on_update_editor_variable")
 	$OptionButton.clear()
 	for type in types:
 		$OptionButton.add_item(type)
@@ -71,14 +77,15 @@ func update_value():
 func slot_update():
 	if DialogueManager._debug_print:
 		print("%s slot_update() name_before_focus:%s, $LineEdit_name.text:%s"%[_print, name_before_focus, $LineEdit_name.text])
-	var workspace = get_parent().owner
-	if ("tree" in workspace) == false: return
+	var editor = get_parent().owner
+#	if editor != GraphEdit: return
+	if ("tree" in editor) == false: return
 	
-	workspace.tree["Variables"].erase(name_before_focus)
+	editor.tree["Variables"].erase(name_before_focus)
 	
 #	Get var_name
 	var var_name:String = ""
-	if workspace.tree["Variables"].has($LineEdit_name.text):
+	if editor.tree["Variables"].has($LineEdit_name.text):
 		if name_before_focus == $LineEdit_name.text:
 #			print("%s slot_update() var name !change"%[_print, var_name])
 			var_name = $LineEdit_name.text
@@ -86,7 +93,7 @@ func slot_update():
 #			print("%s slot_update() var name change"%[_print, var_name])
 			var count:int = 1
 			while(var_name == ""):
-				if workspace.tree["Variables"].has("%s-%s"%[$LineEdit_name.text, count]):
+				if editor.tree["Variables"].has("%s-%s"%[$LineEdit_name.text, count]):
 					count += 1
 				else:
 					var_name = "%s-%s"%[$LineEdit_name.text, count]
@@ -97,17 +104,17 @@ func slot_update():
 #	Add variable to tree
 	match type:
 		"bool":
-			workspace.tree["Variables"][var_name] = [$CheckBox.toggle_mode, type]
+			editor.tree["Variables"][var_name] = [$CheckBox.toggle_mode, type]
 		"string":
-			workspace.tree["Variables"][var_name] = [$LineEdit_value.text, type]
+			editor.tree["Variables"][var_name] = [$LineEdit_value.text, type]
 		"int":
-			workspace.tree["Variables"][var_name] = [$SpinBox_int_value.value, type]
+			editor.tree["Variables"][var_name] = [$SpinBox_int_value.value, type]
 		"float":
-			workspace.tree["Variables"][var_name] = [$SpinBox_float_value.value, type]
+			editor.tree["Variables"][var_name] = [$SpinBox_float_value.value, type]
 		"signal":
-			workspace.tree["Variables"][var_name] = ["", type]
+			editor.tree["Variables"][var_name] = ["", type]
 #	Save tree
-	workspace.save_tree()
+	editor.save_tree()
 	if DialogueManager._debug_print:
 		print("%s slot_update() success, var_slot_name:%s"%[_print, var_name])
 

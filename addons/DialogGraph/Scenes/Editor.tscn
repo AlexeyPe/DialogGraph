@@ -75,6 +75,7 @@ text = "Save As Tree"
 margin_left = 159.0
 margin_right = 260.0
 margin_bottom = 24.0
+pressed = true
 text = "debug print"
 
 [node name="Label_current_tree" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
@@ -202,11 +203,10 @@ anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="DialogueBoxEditor" parent="CenterContainer" instance=ExtResource( 2 )]
-visible = false
 margin_left = 312.0
-margin_top = 200.0
+margin_top = 127.0
 margin_right = 712.0
-margin_bottom = 400.0
+margin_bottom = 473.0
 rect_min_size = Vector2( 400, 200 )
 mouse_filter = 1
 

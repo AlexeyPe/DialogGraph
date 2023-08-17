@@ -19,9 +19,8 @@ rect_min_size = Vector2( 170, 50 )
 text = "run"
 
 [node name="DialogueBoxEditor" parent="CenterContainer" instance=ExtResource( 1 )]
-visible = false
 margin_left = 337.0
-margin_top = 200.0
+margin_top = 127.0
 margin_right = 687.0
-margin_bottom = 400.0
+margin_bottom = 473.0
 rect_min_size = Vector2( 350, 200 )

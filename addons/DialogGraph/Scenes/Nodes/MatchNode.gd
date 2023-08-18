@@ -14,16 +14,28 @@ func get_instructions() -> Array:
 #	[ variable_name:String, match_cases:Array ]
 #	match_cases = [ value: String/int/float ]
 	result.append($Variable.text)
+	result.append([])
+	if $Variable.text == "Variable": return result
 	for i in match_node_count:
 		var case = get_node("MatchNodeCase_"+str(i+1))
-		result.append(case.get_value())
+		if case.is_default: continue
+		match DialogueManager.tree["Variables"][$Variable.text][1]:
+			"int": result[1].append(int(case.get_value()))
+			"float": result[1].append(float(case.get_value()))
+			"string": result[1].append(case.get_value())
 	return result
 
 func set_instructions(instructions:Array):
-#	[ variable:String, value:Variant, operation:String ]
-#	variable - key for tree["Variables"]
-#	value - bool/int/float/string
-	pass
+#	[ variable_name:String, match_cases:Array ]
+#	match_cases = [ value: String/int/float ]
+	match_node_count = 1
+	$Variable.text = instructions[0]
+	print("\n\t\t\tinstructions ", instructions)
+	for case in instructions[1]:
+		_on_add_case_pressed()
+		var case_node = get_node("MatchNodeCase_"+str(match_node_count))
+		case_node.set_value(case)
+		pass
 
 func remove_case(case:HBoxContainer):
 	set_slot_enabled_right(case._case_id+1, false)
@@ -31,6 +43,9 @@ func remove_case(case:HBoxContainer):
 	match_node_count -= 1
 
 func _on_add_case_pressed():
+	if $Variable.text == "Variable": 
+		printerr("%s _on_minus_case_pressed() Please select variable."%[_print])
+		return
 	var case = load("res://addons/DialogGraph/Scenes/Nodes/MatchNodeCase.tscn").instance()
 	match_node_count += 1
 	case._case_id = match_node_count
@@ -40,6 +55,9 @@ func _on_add_case_pressed():
 
 
 func _on_minus_case_pressed():
+	if $Variable.text == "Variable": 
+		printerr("%s _on_minus_case_pressed() Please select variable."%[_print])
+		return
 	if match_node_count > 1:
 		var case_node = get_node("MatchNodeCase_"+str(match_node_count))
 		remove_case(case_node)

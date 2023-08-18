@@ -19,6 +19,8 @@ func set_is_default(new:bool):
 func get_value():
 	return $LineEdit.text
 
+func set_value(new):
+	$LineEdit.text = str(new)
 
 func _on_delete_case_pressed():
 	get_parent().remove_case(self)

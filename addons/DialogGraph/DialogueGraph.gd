@@ -212,6 +212,18 @@ func run_from_row(row_id:int):
 				false_port_id = 0
 			if true_port: run_from_row(_row_data[0][true_port_id][0])
 			else: run_from_row(_row_data[0][false_port_id][0])
+		"MatchNode":
+#			_row_data[4] = [ variable_name:String, match_cases:Array ]
+#			match_cases = [ value: String/int/float ]
+#			** right port 0 - default case
+			if _row_data[0].empty(): 
+				_timeline_end()
+				return
+			var next_port:int = 0
+			for case_id in _row_data[4][1].size():
+				if _row_data[4][1][case_id] == tree["Variables"][_row_data[4][0]][0]:
+					next_port = case_id+1
+			run_from_row(_row_data[0][next_port][0])
 
 func _timeline_end():
 	if _debug_print: print("%s _timeline_end() emit_signal('on_timeline_end', current_timeline:%s)"%[_print, current_timeline])

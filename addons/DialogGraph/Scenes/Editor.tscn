@@ -56,12 +56,11 @@ mouse_default_cursor_shape = 2
 text = "Open Tree"
 
 [node name="btn_save_tree" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-visible = false
 margin_left = 159.0
-margin_right = 232.0
+margin_right = 277.0
 margin_bottom = 24.0
 mouse_default_cursor_shape = 2
-text = "Save Tree"
+text = "Save Tree(Ctrl+S)"
 
 [node name="btn_save_as_tree" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 visible = false
@@ -72,14 +71,21 @@ mouse_default_cursor_shape = 2
 text = "Save As Tree"
 
 [node name="CheckBox-debug_print" type="CheckBox" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 159.0
-margin_right = 260.0
+margin_left = 281.0
+margin_right = 382.0
 margin_bottom = 24.0
 pressed = true
 text = "debug print"
 
+[node name="CheckBox-debug_print2" type="CheckBox" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 386.0
+margin_right = 515.0
+margin_bottom = 24.0
+pressed = true
+text = "Save with Ctrl+S"
+
 [node name="Label_current_tree" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 264.0
+margin_left = 519.0
 margin_top = 5.0
 margin_right = 1014.0
 margin_bottom = 19.0
@@ -203,10 +209,11 @@ anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="DialogueBoxEditor" parent="CenterContainer" instance=ExtResource( 2 )]
+visible = false
 margin_left = 312.0
-margin_top = 127.0
+margin_top = 200.0
 margin_right = 712.0
-margin_bottom = 473.0
+margin_bottom = 400.0
 rect_min_size = Vector2( 400, 200 )
 mouse_filter = 1
 

@@ -73,7 +73,8 @@ func on_button_close_pressed():
 
 func on_button_empty_pressed():
 	if current_row_data.row_links.size() == 0:
-		get_node(root_node).visible = false
+#		get_node(root_node).visible = false
+		DialogueManager._timeline_end()
 	else:
 		DialogueManager.run_from_row(current_row_data.row_links[0])
 

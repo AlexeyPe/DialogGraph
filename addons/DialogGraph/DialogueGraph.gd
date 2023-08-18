@@ -131,7 +131,7 @@ func run_from_row(row_id:int):
 			current_timeline = _row_data[4][0]
 			emit_signal("on_run_timeline_head", _row_data[4][0])
 			if _row_data[0].empty():
-				emit_signal("on_timeline_end", current_timeline)
+				_timeline_end()
 			else:
 				run_from_row(_row_data[0][0][0])
 		"DialogueNode":
@@ -156,14 +156,14 @@ func run_from_row(row_id:int):
 #			signal_data = {img_path:String}
 			emit_signal("on_emit_custom_signal", _row_data[4][0], _row_data[4][1])
 			if _row_data[0].empty():
-				emit_signal("on_timeline_end", current_timeline)
+				_timeline_end()
 			else:
 				run_from_row(_row_data[0][0][0])
 		"SignalNode":
 #			_row_data[4] = [ signal_name:String, signal_data:Dictionary ]
 			emit_signal("on_emit_custom_signal", _row_data[4][0], _row_data[4][1])
 			if _row_data[0].empty():
-				emit_signal("on_timeline_end", current_timeline)
+				_timeline_end()
 			else:
 				run_from_row(_row_data[0][0][0])
 		"SetNode":
@@ -182,9 +182,41 @@ func run_from_row(row_id:int):
 				"inverting": tree["Variables"][_row_data[4][0]] != tree["Variables"][_row_data[4][0]][0]
 			emit_signal("update_editor_variable", _row_data[4][0], tree["Variables"][_row_data[4][0]][0])
 			if _row_data[0].empty():
-				emit_signal("on_timeline_end", current_timeline)
+				_timeline_end()
 			else:
 				run_from_row(_row_data[0][0][0])
+		"IfNode":
+#			_row_data[4] = [ variable_name:String, operation:String, value:Variant ]
+			if _row_data[0].empty(): 
+				_timeline_end()
+				return
+			if _row_data[4][0] == "Random Port": 
+				printerr("If Node - Do not use Random Port")
+				return
+			var true_port:bool = true
+			var true_port_id:int # 0/1
+			var false_port_id:int # 0/1
+			var var_value = tree["Variables"][_row_data[4][0]][0]
+			match _row_data[4][1]:
+				"==": true_port = var_value == _row_data[4][2]
+				"!=": true_port = var_value != _row_data[4][2] 
+				">": true_port = var_value > _row_data[4][2]
+				">=": true_port = var_value >= _row_data[4][2]
+				"<": true_port = var_value < _row_data[4][2]
+				"<=": true_port = var_value <= _row_data[4][2]
+			if _row_data[0][0][1] == 0: 
+				true_port_id = 0
+				false_port_id = 1
+			else: 
+				true_port_id = 1
+				false_port_id = 0
+			if true_port: run_from_row(_row_data[0][true_port_id][0])
+			else: run_from_row(_row_data[0][false_port_id][0])
+
+func _timeline_end():
+	if _debug_print: print("%s _timeline_end() emit_signal('on_timeline_end', current_timeline:%s)"%[_print, current_timeline])
+	current_timeline = ""
+	emit_signal("on_timeline_end", current_timeline)
 
 func run_from_timeline_head(timeline_head:String):
 	if _debug_print: print("%s"%[_print])

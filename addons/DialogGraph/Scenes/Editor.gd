@@ -298,6 +298,11 @@ func _ready():
 	
 	print("%s _ready() success"%[_print])
 
+func _input(event):
+	if current_tree_path == null: return
+	if Input.is_key_pressed(KEY_CONTROL) and Input.is_key_pressed(KEY_S):
+		if $"MarginContainer/VBoxContainer/HBoxContainer/CheckBox-debug_print2".pressed:
+			save_tree()
 
 func _on_btn_new_tree_pressed():
 	if DialogueManager._debug_print: print("%s _on_btn_new_tree_pressed()"%[_print])
@@ -315,7 +320,7 @@ func _on_btn_save_as_tree_pressed():
 
 func _on_btn_save_tree_pressed():
 	if DialogueManager._debug_print: print("%s _on_btn_save_tree_pressed()"%[_print])
-
+	save_tree()
 
 func _on_CheckBoxdebug_print_toggled(button_pressed):
 	print("%s _on_CheckBoxdebug_print_toggled(button_pressed:%s)"%[_print, button_pressed])

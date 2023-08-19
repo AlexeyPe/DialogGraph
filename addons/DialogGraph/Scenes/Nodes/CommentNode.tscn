@@ -3,9 +3,9 @@
 [ext_resource path="res://addons/DialogGraph/Scenes/Nodes/CommentNode.gd" type="Script" id=1]
 
 [node name="CommentNode" type="GraphNode"]
-margin_right = 142.0
-margin_bottom = 90.0
-rect_min_size = Vector2( 180, 100 )
+margin_right = 180.0
+margin_bottom = 70.0
+rect_min_size = Vector2( 180, 70 )
 title = "CommentNode"
 show_close = true
 resizable = true
@@ -22,9 +22,10 @@ script = ExtResource( 1 )
 margin_left = 16.0
 margin_top = 24.0
 margin_right = 164.0
-margin_bottom = 94.0
+margin_bottom = 64.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+wrap_enabled = true
 
 [connection signal="resize_request" from="." to="." method="_on_CommentNode_resize_request"]
 [connection signal="focus_exited" from="TextEdit" to="." method="_on_TextEdit_focus_exited"]

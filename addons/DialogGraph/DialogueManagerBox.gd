@@ -57,16 +57,28 @@ func on_run_row(row_data:DialogueManager.RowData):
 		get_node(button_empty).visible = false
 
 func on_button_1_pressed():
-	DialogueManager.run_from_row(current_row_data.row_links[0])
+	if current_row_data.row_links.size() == 0:
+		DialogueManager._timeline_end()
+	else:
+		DialogueManager.run_from_row(current_row_data.row_links[0])
 
 func on_button_2_pressed():
-	DialogueManager.run_from_row(current_row_data.row_links[1])
+	if current_row_data.row_links.size() == 0:
+		DialogueManager._timeline_end()
+	else:
+		DialogueManager.run_from_row(current_row_data.row_links[1])
 
 func on_button_3_pressed():
-	DialogueManager.run_from_row(current_row_data.row_links[2])
+	if current_row_data.row_links.size() == 0:
+		DialogueManager._timeline_end()
+	else:
+		DialogueManager.run_from_row(current_row_data.row_links[2])
 
 func on_button_4_pressed():
-	DialogueManager.run_from_row(current_row_data.row_links[3])
+	if current_row_data.row_links.size() == 0:
+		DialogueManager._timeline_end()
+	else:
+		DialogueManager.run_from_row(current_row_data.row_links[3])
 
 func on_button_close_pressed():
 	get_node(root_node).visible = false

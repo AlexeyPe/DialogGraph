@@ -230,7 +230,11 @@ func run_from_row(row_id:int):
 			for case_id in _row_data[4][1].size():
 				if _row_data[4][1][case_id] == tree["Variables"][_row_data[4][0]][0]:
 					next_port = case_id+1
+			if _row_data[4][1].size() > 0: next_port -= 1
 			run_from_row(_row_data[0][next_port][0])
+
+func set_variable(var_name, new_value):
+	pass
 
 func _timeline_end():
 	if _debug_print: print("%s _timeline_end() emit_signal('on_timeline_end', current_timeline:%s)"%[_print, current_timeline])

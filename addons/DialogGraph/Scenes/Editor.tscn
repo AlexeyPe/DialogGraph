@@ -167,7 +167,7 @@ minimap_opacity = 0.7
 margin_right = 20.0
 margin_bottom = 20.0
 mouse_filter = 1
-items = [ "TimelineHeadNode", null, 0, false, false, 0, 0, null, "", false, "DialogueNode", null, 0, false, false, 1, 0, null, "", false, "CommentNode", null, 0, false, false, 2, 0, null, "", false, "SetNode", null, 0, false, false, 3, 0, null, "", false, "IfNode", null, 0, false, false, 4, 0, null, "", false, "SignalNode", null, 0, false, false, 5, 0, null, "", false, "SignalNodePreviewTexture", null, 0, false, false, 6, 0, null, "", false, "RandomNode", null, 0, false, false, 7, 0, null, "", false, "MatchNode", null, 0, false, false, 8, 0, null, "", false ]
+items = [ "TimelineHeadNode", null, 0, false, false, 0, 0, null, "", false, "DialogueNode", null, 0, false, false, 1, 0, null, "", false, "CommentNode", null, 0, false, false, 2, 0, null, "", false, "SetNode", null, 0, false, false, 3, 0, null, "", false, "IfNode", null, 0, false, false, 4, 0, null, "", false, "MatchNode", null, 0, false, false, 5, 0, null, "", false, "SignalNode", null, 0, false, false, 6, 0, null, "", false, "SignalNodePreviewTexture", null, 0, false, false, 7, 0, null, "", false ]
 
 [node name="FileDialogOpen" type="FileDialog" parent="."]
 margin_left = 203.0
@@ -209,11 +209,10 @@ anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="DialogueBoxEditor" parent="CenterContainer" instance=ExtResource( 2 )]
-visible = false
 margin_left = 312.0
-margin_top = 200.0
+margin_top = 115.0
 margin_right = 712.0
-margin_bottom = 400.0
+margin_bottom = 485.0
 rect_min_size = Vector2( 400, 200 )
 mouse_filter = 1
 
@@ -227,6 +226,7 @@ mouse_filter = 1
 [connection signal="connection_to_empty" from="MarginContainer/VBoxContainer/HSplitContainer/GraphEdit" to="." method="_on_GraphEdit_connection_to_empty"]
 [connection signal="delete_nodes_request" from="MarginContainer/VBoxContainer/HSplitContainer/GraphEdit" to="." method="_on_GraphEdit_delete_nodes_request"]
 [connection signal="disconnection_request" from="MarginContainer/VBoxContainer/HSplitContainer/GraphEdit" to="." method="_on_GraphEdit_disconnection_request"]
+[connection signal="duplicate_nodes_request" from="MarginContainer/VBoxContainer/HSplitContainer/GraphEdit" to="." method="_on_GraphEdit_duplicate_nodes_request"]
 [connection signal="popup_request" from="MarginContainer/VBoxContainer/HSplitContainer/GraphEdit" to="." method="_on_GraphEdit_popup_request"]
 [connection signal="id_pressed" from="MarginContainer/VBoxContainer/HSplitContainer/GraphEdit/popup_menu_nodes" to="." method="_on_popup_menu_nodes_id_pressed"]
 [connection signal="file_selected" from="FileDialogOpen" to="." method="_on_FileDialogOpen_file_selected"]

@@ -458,3 +458,24 @@ func _on_Button_add_var_pressed():
 	get_node(variable_slot_parent).add_child(var_slot)
 	if DialogueManager._debug_print:
 		print("%s _on_Button_add_var_pressed() tree['Variables']:%s"%[_print, tree['Variables']])
+
+
+func _on_GraphEdit_duplicate_nodes_request():
+	print("%s _on_GraphEdit_duplicate_nodes_request()"%[_print])
+	
+	var editor:GraphEdit = get_node(graph_editor)
+	var selected_nodes:Array
+	var add_offset:Vector2 = Vector2(0, 0)
+	for graph_node in editor.get_children():
+		if graph_node is GraphNodeDialogueBase and graph_node.selected:
+			selected_nodes.append(graph_node)
+			var instructions = graph_node.get_instructions()
+			
+			var duplicate_graph_node:GraphNode = load(GraphNodeName2GraphNodeScene[graph_node.get_type()]).instance()
+			editor.add_child(duplicate_graph_node)
+			cursor_pos = editor.get_global_mouse_position()
+			var mouse_offset = (cursor_pos - editor.rect_global_position + editor.scroll_offset) / editor.zoom
+			duplicate_graph_node.offset = mouse_offset + add_offset
+			duplicate_graph_node.set_instructions(instructions)
+			add_offset -= Vector2(40, 40)
+	pass # Replace with function body.

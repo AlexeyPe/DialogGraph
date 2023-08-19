@@ -186,17 +186,24 @@ func run_from_row(row_id:int):
 			else:
 				run_from_row(_row_data[0][0][0])
 		"IfNode":
-#			_row_data[4] = [ variable_name:String, operation:String, value:Variant ]
+#			if Variable/var_name: _row_data[4] = [ variable_name:String, operation:String, value:Variant ]
+#			if Random: _row_data[4] =			 [ variable_name:String, operation:String, value:int, min:int, max:int ]
 			if _row_data[0].empty(): 
 				_timeline_end()
 				return
-			if _row_data[4][0] == "Random Port": 
-				printerr("If Node - Do not use Random Port")
+			if _row_data[4][0] == "Variable":
+				printerr("%s run_from_row(row_id:%s) IfNode var_name = 'Variable'. Need set var_name"%[_print, row_id])
 				return
 			var true_port:bool = true
 			var true_port_id:int # 0/1
 			var false_port_id:int # 0/1
-			var var_value = tree["Variables"][_row_data[4][0]][0]
+			var var_value:int
+			if _row_data[4][0] == "Random": 
+				var rng = RandomNumberGenerator.new()
+				rng.randomize()
+				var_value = rng.randi_range(_row_data[4][3], _row_data[4][4])
+			else:
+				var_value = tree["Variables"][_row_data[4][0]][0]
 			match _row_data[4][1]:
 				"==": true_port = var_value == _row_data[4][2]
 				"!=": true_port = var_value != _row_data[4][2] 

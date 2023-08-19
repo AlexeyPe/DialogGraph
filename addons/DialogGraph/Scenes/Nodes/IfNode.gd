@@ -1,16 +1,25 @@
 tool
 extends GraphNodeDialogueBase
 
-export var is_use_random_port:bool setget set_is_use_random_port
+export var is_use_random:bool setget set_is_use_random
 
 var operations = ["==", "!=", ">", ">=", "<", "<="]
 
 func get_instructions() -> Array:
 	var result:Array = []
-#	[ variable_name:String, operation:String, value:Variant ]
+#	if Variable/var_name =  [ variable_name:String, operation:String, value:Variant ]
+#	if Random = 			[ variable_name:String, operation:String, min:int, max:int ]
 	result.append($Variable.text)
 	result.append($PanelContainer/HBox/Operation.text)
+	if $Variable.text == "Variable":
+		result.append("")
+		return result
 	var value = $PanelContainer/HBox/LineEdit.text
+	if $Variable.text == "Random":
+		result.append(int(value))
+		result.append($HBoxContainer/SpinBox_min.value)
+		result.append($HBoxContainer2/SpinBox_max.value)
+		return result
 	match DialogueManager.tree["Variables"][$Variable.text][1]:
 		"int": result.append(int(value))
 		"float": result.append(float(value))
@@ -24,15 +33,18 @@ func set_instructions(instructions:Array):
 	$PanelContainer/HBox/LineEdit.text = str(instructions[2])
 	update_ui()
 	$PanelContainer/HBox/Operation.text = instructions[1]
-	pass
+	if instructions[0] == "Random":
+		$HBoxContainer/SpinBox_min.value = instructions[3]
+		$HBoxContainer2/SpinBox_max.value = instructions[4]
 
 func _on_Variable_button_down():
 #	print("%s _on_Variable_button_down() DialogueManager.tree_varibales_without_signals.size(): %s, DialogueManager.tree_varibales_without_signals:%s"%[_print, DialogueManager.tree_varibales_without_signals.size(), DialogueManager.tree_varibales_without_signals])
 	$Variable.clear()
+	$Variable.add_item("Random")
+	$Variable.select(-1)
 	if DialogueManager.tree_varibales_without_signals.size() == 0: 
 		$Variable.text = "Variable"
 		return
-	$Variable.add_item("Random Port")
 	for variable in DialogueManager.tree_varibales_without_signals:
 		$Variable.add_item(variable)
 	$Variable.select(-1)
@@ -41,27 +53,34 @@ func _on_Variable_focus_exited():
 	if $Variable.text == "":
 		$Variable.text = "Variable"
 
-func set_is_use_random_port(new:bool):
-	is_use_random_port = new
-	if !has_node("HBoxContainer/is_use_random_port"):return
-	if is_use_random_port:
-		set_slot_enabled_left(2, true)
-		$HBoxContainer/is_use_random_port.visible = true
+func set_is_use_random(new:bool):
+	is_use_random = new
+	if is_use_random:
+		$HBoxContainer2/SpinBox_max.visible = true
+		$HBoxContainer/SpinBox_min.visible = true
 	else:
-		set_slot_enabled_left(2, false)
-		$HBoxContainer/is_use_random_port.visible = false
+		$HBoxContainer2/SpinBox_max.visible = false
+		$HBoxContainer/SpinBox_min.visible = false
 
 func get_type() -> String:
 	return "IfNode"
 
-#func _ready():
-#	set_is_use_random_port(false)
+func mouse_enter():
+	get_parent().owner.zoom_lock(true)
+	pass
+
+func mouse_exit():
+	get_parent().owner.zoom_lock(false)
+	pass
+
+func _ready():
+	set_is_use_random(false)
 
 func update_ui():
-	set_is_use_random_port(false)
+	set_is_use_random(false)
 	var var_name = $Variable.text
-	if var_name == "Random Port": 
-		set_is_use_random_port(true)
+	if var_name == "Random": 
+		set_is_use_random(true)
 		return
 	var var_type = DialogueManager.tree["Variables"][var_name][1]
 	$PanelContainer/HBox.visible = true

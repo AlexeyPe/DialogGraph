@@ -24,7 +24,7 @@ slot/1/left_color = Color( 1, 1, 1, 1 )
 slot/1/right_enabled = false
 slot/1/right_type = 0
 slot/1/right_color = Color( 1, 1, 1, 1 )
-slot/2/left_enabled = true
+slot/2/left_enabled = false
 slot/2/left_type = 0
 slot/2/left_color = Color( 0.25098, 0.878431, 0.815686, 1 )
 slot/2/right_enabled = true
@@ -37,7 +37,6 @@ slot/3/right_enabled = true
 slot/3/right_type = 0
 slot/3/right_color = Color( 0.878431, 0.25098, 0.313726, 1 )
 script = ExtResource( 1 )
-is_use_random_port = true
 
 [node name="Variable" type="OptionButton" parent="."]
 margin_left = 16.0
@@ -78,25 +77,45 @@ margin_top = 76.0
 margin_right = 184.0
 margin_bottom = 90.0
 
-[node name="is_use_random_port" type="Label" parent="HBoxContainer"]
-margin_right = 116.0
-margin_bottom = 14.0
+[node name="SpinBox_min" type="SpinBox" parent="HBoxContainer"]
+visible = false
+margin_right = 124.0
+margin_bottom = 24.0
 size_flags_horizontal = 3
-text = "RandomNode port"
+size_flags_stretch_ratio = 7.0
+min_value = -1e+09
+max_value = 1e+09
+prefix = "min"
 
 [node name="Label" type="Label" parent="HBoxContainer"]
-margin_left = 120.0
 margin_right = 168.0
 margin_bottom = 14.0
+rect_min_size = Vector2( 40, 0 )
 size_flags_horizontal = 3
 text = "True"
 align = 2
 
-[node name="Label2" type="Label" parent="."]
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
 margin_left = 16.0
 margin_top = 94.0
 margin_right = 184.0
 margin_bottom = 108.0
+
+[node name="SpinBox_max" type="SpinBox" parent="HBoxContainer2"]
+visible = false
+margin_right = 124.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 7.0
+min_value = -1e+09
+max_value = 1e+09
+prefix = "max"
+
+[node name="Label2" type="Label" parent="HBoxContainer2"]
+margin_right = 168.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 40, 0 )
+size_flags_horizontal = 3
 text = "False"
 align = 2
 
@@ -104,3 +123,7 @@ align = 2
 [connection signal="button_down" from="Variable" to="." method="_on_Variable_button_down"]
 [connection signal="focus_exited" from="Variable" to="." method="_on_Variable_focus_exited"]
 [connection signal="item_selected" from="Variable" to="." method="_on_Variable_item_selected"]
+[connection signal="mouse_entered" from="HBoxContainer/SpinBox_min" to="." method="mouse_enter"]
+[connection signal="mouse_exited" from="HBoxContainer/SpinBox_min" to="." method="mouse_exit"]
+[connection signal="mouse_entered" from="HBoxContainer2/SpinBox_max" to="." method="mouse_enter"]
+[connection signal="mouse_exited" from="HBoxContainer2/SpinBox_max" to="." method="mouse_exit"]

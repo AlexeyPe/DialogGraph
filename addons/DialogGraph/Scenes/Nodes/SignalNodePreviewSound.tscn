@@ -1,0 +1,152 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://addons/DialogGraph/Scenes/Nodes/SignalNodePreviewSound.gd" type="Script" id=1]
+[ext_resource path="res://addons/DialogGraph/imgs/icons8-close-94-min.png" type="Texture" id=2]
+[ext_resource path="res://addons/DialogGraph/imgs/icons8-done-94-min.png" type="Texture" id=3]
+
+[node name="SignalNodePreviewSound" type="GraphNode"]
+margin_right = 208.0
+margin_bottom = 106.0
+rect_min_size = Vector2( 180, 100 )
+custom_constants/separation = 4
+title = "SignalNodePreviewSound"
+show_close = true
+resizable = true
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color( 1, 1, 1, 1 )
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color( 1, 1, 1, 1 )
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color( 1, 1, 1, 1 )
+slot/1/right_enabled = false
+slot/1/right_type = 0
+slot/1/right_color = Color( 1, 1, 1, 1 )
+slot/2/left_enabled = false
+slot/2/left_type = 0
+slot/2/left_color = Color( 1, 1, 1, 1 )
+slot/2/right_enabled = false
+slot/2/right_type = 0
+slot/2/right_color = Color( 1, 1, 1, 1 )
+script = ExtResource( 1 )
+
+[node name="OptionButton_signal" type="OptionButton" parent="."]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 195.0
+margin_bottom = 44.0
+text = "Variable"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+margin_left = 16.0
+margin_top = 48.0
+margin_right = 195.0
+margin_bottom = 72.0
+
+[node name="LineEdit_path" type="LineEdit" parent="HBoxContainer2"]
+margin_right = 123.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+placeholder_text = "Sound Path"
+
+[node name="TextureRect_path_err" type="TextureRect" parent="HBoxContainer2"]
+margin_left = 127.0
+margin_right = 151.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 0 )
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 6
+
+[node name="TextureRect_path_ok" type="TextureRect" parent="HBoxContainer2"]
+margin_left = 155.0
+margin_right = 179.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 0 )
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 6
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_left = 16.0
+margin_top = 76.0
+margin_right = 195.0
+margin_bottom = 184.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+margin_right = 116.0
+margin_bottom = 108.0
+rect_min_size = Vector2( 90, 0 )
+size_flags_horizontal = 3
+
+[node name="CheckBox_random_pitch" type="CheckBox" parent="HBoxContainer/VBoxContainer"]
+margin_right = 116.0
+margin_bottom = 24.0
+disabled = true
+text = "Random Pitch"
+
+[node name="SpinBox_dB" type="SpinBox" parent="HBoxContainer/VBoxContainer"]
+margin_top = 28.0
+margin_right = 116.0
+margin_bottom = 52.0
+min_value = -80.0
+max_value = 24.0
+step = 0.02
+editable = false
+prefix = "dB"
+
+[node name="SpinBox_min" type="SpinBox" parent="HBoxContainer/VBoxContainer"]
+margin_top = 56.0
+margin_right = 116.0
+margin_bottom = 80.0
+min_value = 0.04
+max_value = 4.0
+step = 0.01
+value = 0.9
+editable = false
+prefix = "Pitch min"
+
+[node name="SpinBox_max" type="SpinBox" parent="HBoxContainer/VBoxContainer"]
+margin_top = 84.0
+margin_right = 116.0
+margin_bottom = 108.0
+min_value = -10.0
+max_value = 10.0
+step = 0.01
+value = 1.1
+editable = false
+prefix = "Pitch max"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+margin_left = 120.0
+margin_right = 179.0
+margin_bottom = 108.0
+
+[node name="CheckBox_loop" type="CheckBox" parent="HBoxContainer/VBoxContainer2"]
+margin_right = 59.0
+margin_bottom = 24.0
+disabled = true
+text = "Loop"
+
+[node name="Button_play" type="Button" parent="HBoxContainer/VBoxContainer2"]
+margin_top = 28.0
+margin_right = 59.0
+margin_bottom = 48.0
+size_flags_vertical = 0
+disabled = true
+text = "Play"
+
+[connection signal="resize_request" from="." to="." method="_on_SignalNodePreviewSound_resize_request"]
+[connection signal="button_down" from="OptionButton_signal" to="." method="_on_OptionButton_signal_button_down"]
+[connection signal="item_selected" from="OptionButton_signal" to="." method="_on_OptionButton_signal_item_selected"]
+[connection signal="focus_exited" from="HBoxContainer2/LineEdit_path" to="." method="_on_LineEdit_path_focus_exited"]
+[connection signal="text_entered" from="HBoxContainer2/LineEdit_path" to="." method="_on_LineEdit_path_text_entered"]
+[connection signal="toggled" from="HBoxContainer/VBoxContainer/CheckBox_random_pitch" to="." method="_on_CheckBox_random_pitch_toggled"]
+[connection signal="mouse_entered" from="HBoxContainer/VBoxContainer/SpinBox_dB" to="." method="mouse_entered"]
+[connection signal="mouse_exited" from="HBoxContainer/VBoxContainer/SpinBox_dB" to="." method="mouse_exited"]
+[connection signal="mouse_entered" from="HBoxContainer/VBoxContainer/SpinBox_min" to="." method="mouse_entered"]
+[connection signal="mouse_exited" from="HBoxContainer/VBoxContainer/SpinBox_min" to="." method="mouse_exited"]
+[connection signal="mouse_entered" from="HBoxContainer/VBoxContainer/SpinBox_max" to="." method="mouse_entered"]
+[connection signal="mouse_exited" from="HBoxContainer/VBoxContainer/SpinBox_max" to="." method="mouse_exited"]

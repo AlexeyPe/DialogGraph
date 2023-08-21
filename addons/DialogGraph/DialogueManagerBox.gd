@@ -27,7 +27,10 @@ export var button_close:NodePath
 # Shows this button when all options are "" or null
 export var button_empty:NodePath
 
-export var texture:NodePath
+# Env texture
+export var env_texture:NodePath
+export var character_texture:NodePath
+
 
 func _get(property):
 	match property:
@@ -95,13 +98,19 @@ func on_texture_update(img_path:String):
 		print("%s on_texture_update(img_path:%s)"%[_print, img_path])
 
 func on_emit_custom_signal(signal_name:String, signal_data:Dictionary):
-	if signal_name != "on_texture_update": return
-	if DialogueManager._debug_print: print("%s on_emit_signal(signal_name:%s, signal_data:%s)"%[_print, signal_name, signal_data])
-	if !signal_data.has("img_path"): 
-		printerr("%s on_emit_signal(signal_name:%s, signal_data:%s) signal_data !has('img_path')"%[_print, signal_name, signal_data])
-		return
-	var new_texture = load(signal_data["img_path"])
-	$"../MarginContainer/VBoxContainer/TextureRect".texture = new_texture
+	if signal_name == "on_texture_update" or signal_name == "on_texture_character_update": 
+		if DialogueManager._debug_print: print("%s on_emit_signal(signal_name:%s, signal_data:%s)"%[_print, signal_name, signal_data])
+		if !signal_data.has("img_path"): 
+			printerr("%s on_emit_signal(signal_name:%s, signal_data:%s) signal_data !has('img_path')"%[_print, signal_name, signal_data])
+			return
+		var new_texture = load(signal_data["img_path"])
+		if signal_name == "on_texture_update":
+			get_node(env_texture).texture = new_texture
+		else:
+			get_node(character_texture).visible = true
+			get_node(character_texture).texture = new_texture
+	if signal_name == "on_texture_character_hide":
+		get_node(character_texture).visible = false
 
 func on_timeline_end(timeline_name:String):
 	get_node(root_node).visible = false

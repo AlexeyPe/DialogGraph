@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Tessellation-Stones.jpg-ee84af9131ac301283116d97a319ea7f.stex"
+path="res://.import/e_1.jpg-36acedd448dcd484a70a66d10dd1dbdb.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/DialogGraph/Demo/Tessellation-Stones.jpg"
-dest_files=[ "res://.import/Tessellation-Stones.jpg-ee84af9131ac301283116d97a319ea7f.stex" ]
+source_file="res://addons/DialogGraph/Demo/imgs/e_1.jpg"
+dest_files=[ "res://.import/e_1.jpg-36acedd448dcd484a70a66d10dd1dbdb.stex" ]
 
 [params]
 

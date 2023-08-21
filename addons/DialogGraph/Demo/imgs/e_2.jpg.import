@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Cartoon RPG UI_Slot - Grade B 2.png-b957d9f5f79013688ed0a1793855d079.stex"
+path="res://.import/e_2.jpg-98dc50d5a1d7839cf089b13f62fde920.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/DialogGraph/Demo/Cartoon RPG UI_Slot - Grade B 2.png"
-dest_files=[ "res://.import/Cartoon RPG UI_Slot - Grade B 2.png-b957d9f5f79013688ed0a1793855d079.stex" ]
+source_file="res://addons/DialogGraph/Demo/imgs/e_2.jpg"
+dest_files=[ "res://.import/e_2.jpg-98dc50d5a1d7839cf089b13f62fde920.stex" ]
 
 [params]
 

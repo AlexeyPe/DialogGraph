@@ -8,7 +8,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_vertical = 3
 script = ExtResource( 1 )
-GraphNodesScenes = [ "res://addons/DialogGraph/Scenes/Nodes/TimelineHeadNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/DialogueNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/CommentNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/SetNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/IfNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/MatchNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/SignalNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/SignalNodePreviewTexture.tscn" ]
+GraphNodesScenes = [ "res://addons/DialogGraph/Scenes/Nodes/TimelineHeadNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/DialogueNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/CommentNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/SetNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/IfNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/MatchNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/SignalNode.tscn", "res://addons/DialogGraph/Scenes/Nodes/SignalNodePreviewTexture.tscn", "res://addons/DialogGraph/Scenes/Nodes/SignalNodePreviewSound.tscn" ]
 scene_variable_slot = "res://addons/DialogGraph/Scenes/variable_slot.tscn"
 variable_slot_parent = NodePath("MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer")
 popup_menu_nodes = NodePath("MarginContainer/VBoxContainer/HSplitContainer/GraphEdit/popup_menu_nodes")
@@ -19,7 +19,6 @@ FileDialogNew = NodePath("FileDialogNew")
 FileDialogSaveAs = NodePath("FileDialogSaveAs")
 workspace_node = NodePath("MarginContainer/VBoxContainer/HSplitContainer")
 dialogue_box_test = NodePath("CenterContainer/DialogueBoxEditor")
-default_signals = [ "on_texture_update", "test" ]
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -167,7 +166,7 @@ minimap_opacity = 0.7
 margin_right = 20.0
 margin_bottom = 20.0
 mouse_filter = 1
-items = [ "TimelineHeadNode", null, 0, false, false, 0, 0, null, "", false, "DialogueNode", null, 0, false, false, 1, 0, null, "", false, "CommentNode", null, 0, false, false, 2, 0, null, "", false, "SetNode", null, 0, false, false, 3, 0, null, "", false, "IfNode", null, 0, false, false, 4, 0, null, "", false, "MatchNode", null, 0, false, false, 5, 0, null, "", false, "SignalNode", null, 0, false, false, 6, 0, null, "", false, "SignalNodePreviewTexture", null, 0, false, false, 7, 0, null, "", false ]
+items = [ "TimelineHeadNode", null, 0, false, false, 0, 0, null, "", false, "DialogueNode", null, 0, false, false, 1, 0, null, "", false, "CommentNode", null, 0, false, false, 2, 0, null, "", false, "SetNode", null, 0, false, false, 3, 0, null, "", false, "IfNode", null, 0, false, false, 4, 0, null, "", false, "MatchNode", null, 0, false, false, 5, 0, null, "", false, "SignalNode", null, 0, false, false, 6, 0, null, "", false, "SignalNodePreviewTexture", null, 0, false, false, 7, 0, null, "", false, "SignalNodePreviewSound", null, 0, false, false, 8, 0, null, "", false ]
 
 [node name="FileDialogOpen" type="FileDialog" parent="."]
 margin_left = 203.0
@@ -209,10 +208,11 @@ anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="DialogueBoxEditor" parent="CenterContainer" instance=ExtResource( 2 )]
+visible = false
 margin_left = 312.0
-margin_top = 115.0
+margin_top = 200.0
 margin_right = 712.0
-margin_bottom = 485.0
+margin_bottom = 400.0
 rect_min_size = Vector2( 400, 200 )
 mouse_filter = 1
 

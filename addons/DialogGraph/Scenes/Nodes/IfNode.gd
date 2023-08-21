@@ -3,7 +3,7 @@ extends GraphNodeDialogueBase
 
 export var is_use_random:bool setget set_is_use_random
 
-var operations = ["==", "!=", ">", ">=", "<", "<="]
+var operations = ["==", "!=", ">", ">=", "<", "<=", "== Variable", "!= Variable", "> Variable", ">= Variable", "< Variable", "<= Variable"]
 
 func get_instructions() -> Array:
 	var result:Array = []
@@ -29,9 +29,11 @@ func get_instructions() -> Array:
 
 func set_instructions(instructions:Array):
 #	[ variable_name:String, operation:String, value:Variant ]
+	print("set_instructions(instructions) 1")
 	$Variable.text = instructions[0]
 	$PanelContainer/HBox/LineEdit.text = str(instructions[2])
 	update_ui()
+	print("set_instructions(instructions) 2")
 	$PanelContainer/HBox/Operation.text = instructions[1]
 	if instructions[0] == "Random":
 		$HBoxContainer/SpinBox_min.value = instructions[3]
@@ -75,12 +77,21 @@ func mouse_exit():
 
 func _ready():
 	set_is_use_random(false)
+	update_ui()
+	$PanelContainer/HBox/Operation.clear()
+	$PanelContainer/HBox/Operation.text = "Select Variable"
 
 func update_ui():
 	set_is_use_random(false)
 	var var_name = $Variable.text
+	$PanelContainer/HBox/Operation.clear()
+	for operation in operations:
+		$PanelContainer/HBox/Operation.add_item(operation)
 	if var_name == "Random": 
 		set_is_use_random(true)
+		return
+	if var_name == "Variable": 
+		set_is_use_random(false)
 		return
 	var var_type = DialogueManager.tree["Variables"][var_name][1]
 	$PanelContainer/HBox.visible = true

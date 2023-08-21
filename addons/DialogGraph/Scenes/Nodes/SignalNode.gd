@@ -23,7 +23,9 @@ func get_instructions() -> Array:
 
 func set_instructions(instructions:Array):
 	$OptionButton.text = instructions[0]
-	$LineEdit.text = JSON.print(instructions[1])
+	var data = JSON.print(instructions[1])
+	if data != "{}":
+		$LineEdit.text = JSON.print(instructions[1])
 
 func update_option_button():
 	$OptionButton.clear()

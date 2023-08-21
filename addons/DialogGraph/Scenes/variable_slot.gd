@@ -128,6 +128,7 @@ func _on_Button_delete_pressed():
 	if DialogueManager._debug_print:
 		print("%s _on_Button_delete_pressed() var_slot_name:%s"%[_print, $LineEdit_name.text])
 	var workspace = get_parent().owner
+	workspace.save_tree()
 	workspace.tree["Variables"].erase($LineEdit_name.text)
 	if DialogueManager._debug_print:
 		print("%s _on_Button_delete_pressed() data after deleting a variable:%s"%[_print, workspace.tree["Variables"]])

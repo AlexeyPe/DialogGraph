@@ -3,5 +3,8 @@
 [ext_resource path="res://addons/DialogGraph/font/Nunito-Regular.ttf" type="DynamicFontData" id=1]
 
 [resource]
+size = 22
+outline_size = 1
+outline_color = Color( 1, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 1 )

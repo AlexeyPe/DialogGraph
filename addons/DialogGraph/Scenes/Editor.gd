@@ -39,7 +39,13 @@ export var FileDialogSaveAs:NodePath
 export var workspace_node:NodePath
 export var dialogue_box_test:NodePath
 
-export var default_signals:Array = ["on_texture_update"]
+export var default_signals:Array = [
+	"on_texture_update", 
+	"on_texture_character_update", 
+	"on_texture_character_hide", 
+	"play_sound",
+	"play_music",
+]
 
 var GraphNodeName2GraphNodeScene = {}
 var GraphNodeScene2GraphNodeName = {} # Scene is path
@@ -407,6 +413,7 @@ func _on_FileDialogNew_file_selected(path):
 	
 	for child in get_node(graph_editor).get_children():
 		if child is GraphNodeDialogueBase:
+			graph.remove_child(child)
 			child.queue_free()
 	
 	for child in get_node(variable_slot_parent).get_children():
@@ -414,6 +421,7 @@ func _on_FileDialogNew_file_selected(path):
 	
 	current_tree_path = path
 	current_tree_name = current_tree_path.get_file()
+	tree = {}
 	update_ui() 
 #	create tree and save
 	save_tree()

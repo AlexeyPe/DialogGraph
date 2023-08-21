@@ -41,7 +41,6 @@ enabled=PoolStringArray( "res://addons/DialogGraph/plugin.cfg" )
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
-theme/custom="res://addons/DialogGraph/Demo/new_theme.tres"
 
 [physics]
 

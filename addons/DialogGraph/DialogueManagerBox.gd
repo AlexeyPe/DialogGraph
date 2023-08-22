@@ -31,6 +31,12 @@ export var button_empty:NodePath
 export var env_texture:NodePath
 export var character_texture:NodePath
 
+# Audio
+export var player_music:NodePath
+export var player_sound:NodePath
+
+var player_sound_data
+var player_music_data
 
 func _get(property):
 	match property:
@@ -84,7 +90,8 @@ func on_button_4_pressed():
 		DialogueManager.run_from_row(current_row_data.row_links[3])
 
 func on_button_close_pressed():
-	get_node(root_node).visible = false
+	print("on_button_close_pressed")
+	DialogueManager.emit_signal("on_timeline_end", DialogueManager.current_timeline)
 
 func on_button_empty_pressed():
 	if current_row_data.row_links.size() == 0:
@@ -96,6 +103,23 @@ func on_button_empty_pressed():
 func on_texture_update(img_path:String):
 	if DialogueManager._debug_print:
 		print("%s on_texture_update(img_path:%s)"%[_print, img_path])
+
+func get_pitch(data:Dictionary) -> float:
+#	data = {"SoundPath":String, "Loop":bool, "PitchMin":float, "PitchMax":float, "dB":float}
+	var result:float = 1
+	if data["PitchMin"] != null and data["PitchMax"] != null:
+		result = rand_range(data["PitchMin"], data["PitchMax"])
+	return result
+
+func play_audio(player:AudioStreamPlayer, data:Dictionary):
+	print("play_audio(player:%s, data:%s)"%[player, data])
+#	data = {"SoundPath":String, "Loop":bool, "PitchMin":float, "PitchMax":float, "dB":float}
+	if data == null: return
+	var stream = load(data["SoundPath"])
+	player.stream = stream
+	player.pitch_scale = get_pitch(data)
+	player.volume_db = data["dB"]
+	player.play()
 
 func on_emit_custom_signal(signal_name:String, signal_data:Dictionary):
 	if signal_name == "on_texture_update" or signal_name == "on_texture_character_update": 
@@ -111,10 +135,21 @@ func on_emit_custom_signal(signal_name:String, signal_data:Dictionary):
 			get_node(character_texture).texture = new_texture
 	if signal_name == "on_texture_character_hide":
 		get_node(character_texture).visible = false
+	if signal_name == "play_sound":
+		if DialogueManager._debug_print: print("%s on_emit_signal(signal_name:%s, signal_data:%s)"%[_print, signal_name, signal_data])
+		player_sound_data = signal_data
+		play_audio(get_node(player_sound), player_sound_data)
+	if signal_name == "play_music":
+		if DialogueManager._debug_print: print("%s on_emit_signal(signal_name:%s, signal_data:%s)"%[_print, signal_name, signal_data])
+		player_music_data = signal_data
+		play_audio(get_node(player_music), player_music_data)
 
 func on_timeline_end(timeline_name:String):
 	get_node(root_node).visible = false
-	pass
+	player_sound_data = null
+	player_music_data = null
+	get_node(player_music).stop()
+	get_node(player_sound).stop()
 
 func _ready():
 	DialogueManager.connect("on_run_row", self, "on_run_row")
@@ -127,4 +162,19 @@ func _ready():
 	get_node(button_4).connect("pressed", self, "on_button_4_pressed")
 	get_node(button_close).connect("pressed", self, "on_button_close_pressed")
 	get_node(button_empty).connect("pressed", self, "on_button_empty_pressed")
-	pass
+	get_node(player_music).connect("finished", self, "on_player_music_finished")
+	get_node(player_sound).connect("finished", self, "on_player_sound_finished")
+
+
+func on_player_music_finished():
+	print("dialog box music player")
+	if player_music_data == null: return
+	if player_music_data["Loop"] == true:
+		play_audio(get_node(player_music), player_music_data)
+
+
+func on_player_sound_finished():
+	print("dialog box sound player")
+	if player_sound_data == null: return
+	if player_sound_data["Loop"] == true:
+		play_audio(get_node(player_sound), player_sound_data)

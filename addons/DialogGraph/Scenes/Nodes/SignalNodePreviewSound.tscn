@@ -46,14 +46,14 @@ margin_right = 195.0
 margin_bottom = 72.0
 
 [node name="LineEdit_path" type="LineEdit" parent="HBoxContainer2"]
-margin_right = 123.0
+margin_right = 151.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 placeholder_text = "Sound Path"
 
 [node name="TextureRect_path_err" type="TextureRect" parent="HBoxContainer2"]
-margin_left = 127.0
-margin_right = 151.0
+margin_left = 155.0
+margin_right = 179.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 24, 0 )
 texture = ExtResource( 2 )
@@ -61,6 +61,7 @@ expand = true
 stretch_mode = 6
 
 [node name="TextureRect_path_ok" type="TextureRect" parent="HBoxContainer2"]
+visible = false
 margin_left = 155.0
 margin_right = 179.0
 margin_bottom = 24.0
@@ -73,11 +74,11 @@ stretch_mode = 6
 margin_left = 16.0
 margin_top = 76.0
 margin_right = 195.0
-margin_bottom = 184.0
+margin_bottom = 128.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 margin_right = 116.0
-margin_bottom = 108.0
+margin_bottom = 52.0
 rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 3
 
@@ -98,6 +99,7 @@ editable = false
 prefix = "dB"
 
 [node name="SpinBox_min" type="SpinBox" parent="HBoxContainer/VBoxContainer"]
+visible = false
 margin_top = 56.0
 margin_right = 116.0
 margin_bottom = 80.0
@@ -109,6 +111,7 @@ editable = false
 prefix = "Pitch min"
 
 [node name="SpinBox_max" type="SpinBox" parent="HBoxContainer/VBoxContainer"]
+visible = false
 margin_top = 84.0
 margin_right = 116.0
 margin_bottom = 108.0
@@ -122,7 +125,7 @@ prefix = "Pitch max"
 [node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
 margin_left = 120.0
 margin_right = 179.0
-margin_bottom = 108.0
+margin_bottom = 52.0
 
 [node name="CheckBox_loop" type="CheckBox" parent="HBoxContainer/VBoxContainer2"]
 margin_right = 59.0
@@ -134,9 +137,21 @@ text = "Loop"
 margin_top = 28.0
 margin_right = 59.0
 margin_bottom = 48.0
+mouse_default_cursor_shape = 2
 size_flags_vertical = 0
 disabled = true
 text = "Play"
+
+[node name="Button_stop" type="Button" parent="HBoxContainer/VBoxContainer2"]
+visible = false
+margin_top = 52.0
+margin_right = 59.0
+margin_bottom = 72.0
+mouse_default_cursor_shape = 2
+size_flags_vertical = 0
+text = "Stop"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
 [connection signal="resize_request" from="." to="." method="_on_SignalNodePreviewSound_resize_request"]
 [connection signal="button_down" from="OptionButton_signal" to="." method="_on_OptionButton_signal_button_down"]
@@ -150,3 +165,6 @@ text = "Play"
 [connection signal="mouse_exited" from="HBoxContainer/VBoxContainer/SpinBox_min" to="." method="mouse_exited"]
 [connection signal="mouse_entered" from="HBoxContainer/VBoxContainer/SpinBox_max" to="." method="mouse_entered"]
 [connection signal="mouse_exited" from="HBoxContainer/VBoxContainer/SpinBox_max" to="." method="mouse_exited"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer2/Button_play" to="." method="_on_Button_play_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer2/Button_stop" to="." method="_on_Button_stop_pressed"]
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_AudioStreamPlayer_finished"]

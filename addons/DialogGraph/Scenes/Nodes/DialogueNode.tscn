@@ -109,7 +109,6 @@ mouse_default_cursor_shape = 2
 text = "run"
 
 [node name="Option1" type="LineEdit" parent="."]
-visible = false
 margin_left = 16.0
 margin_top = 53.0
 margin_right = 176.0
@@ -118,7 +117,6 @@ size_flags_horizontal = 3
 placeholder_text = "Option 1"
 
 [node name="Option2" type="LineEdit" parent="."]
-visible = false
 margin_left = 16.0
 margin_top = 81.0
 margin_right = 176.0
@@ -127,7 +125,6 @@ size_flags_horizontal = 3
 placeholder_text = "Option 2"
 
 [node name="Option3" type="LineEdit" parent="."]
-visible = false
 margin_left = 16.0
 margin_top = 109.0
 margin_right = 176.0
@@ -136,7 +133,6 @@ size_flags_horizontal = 3
 placeholder_text = "Option 3"
 
 [node name="Option4" type="LineEdit" parent="."]
-visible = false
 margin_left = 16.0
 margin_top = 137.0
 margin_right = 176.0
@@ -146,15 +142,15 @@ placeholder_text = "Option 4"
 
 [node name="Speaker" type="LineEdit" parent="."]
 margin_left = 16.0
-margin_top = 53.0
+margin_top = 165.0
 margin_right = 176.0
-margin_bottom = 77.0
+margin_bottom = 189.0
 size_flags_horizontal = 3
 placeholder_text = "Speaker"
 
 [node name="TextEdit" type="TextEdit" parent="."]
 margin_left = 16.0
-margin_top = 81.0
+margin_top = 193.0
 margin_right = 176.0
 margin_bottom = 193.0
 hint_tooltip = "The dialogue displayed in the DialogueBox.

@@ -159,6 +159,14 @@ func run_from_row(row_id:int):
 				_timeline_end()
 			else:
 				run_from_row(_row_data[0][0][0])
+		"SignalNodePreviewSound":
+#			[ signal_name:String, signal_data:Dictionary ]
+#			signal_data = {"SoundPath":String, "Loop":bool, "PitchMin":float/null, "PitchMax":float/null, "dB":float}
+			emit_signal("on_emit_custom_signal", _row_data[4][0], _row_data[4][1])
+			if _row_data[0].empty():
+				_timeline_end()
+			else:
+				run_from_row(_row_data[0][0][0])
 		"SignalNode":
 #			_row_data[4] = [ signal_name:String, signal_data:Dictionary ]
 			emit_signal("on_emit_custom_signal", _row_data[4][0], _row_data[4][1])
@@ -238,8 +246,8 @@ func set_variable(var_name, new_value):
 
 func _timeline_end():
 	if _debug_print: print("%s _timeline_end() emit_signal('on_timeline_end', current_timeline:%s)"%[_print, current_timeline])
-	current_timeline = ""
 	emit_signal("on_timeline_end", current_timeline)
+	current_timeline = ""
 
 func run_from_timeline_head(timeline_head:String):
 	if _debug_print: print("%s"%[_print])

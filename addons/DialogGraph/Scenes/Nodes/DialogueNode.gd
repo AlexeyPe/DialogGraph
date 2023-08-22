@@ -14,8 +14,6 @@ func get_instructions() -> Array:
 #	else: result.append($Speaker.text)
 #	description
 	result.append($TextEdit.text)
-#	if $TextEdit.text == "": result.append(null)
-#	else: result.append($TextEdit.text)
 #	option 1
 	if $Option1.text == "": 
 		if option_count >= 1: result.append("")
@@ -55,7 +53,7 @@ func update_slots():
 		graph_editor = get_parent()
 		for connection in graph_editor.get_connection_list():
 			if connection["from"] == name:
-				connections.append( )
+				connections.append()
 	
 	if option_count == 0:
 		set_slot_enabled_right(0, true)
@@ -125,5 +123,6 @@ func _on_focus_exited():
 func _on_run_pressed():
 	if DialogueManager._debug_print:
 		print("%s _on_run_pressed() DialogueManager.run_from_row(row:%s)"%[_print, row])
+	DialogueManager.current_timeline = "_editor_test"
 	DialogueManager.run_from_row(row)
 	pass # Replace with function body.

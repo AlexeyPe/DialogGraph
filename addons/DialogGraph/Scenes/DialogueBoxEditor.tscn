@@ -1,15 +1,16 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://addons/DialogGraph/DialogueManagerBox.gd" type="Script" id=1]
 [ext_resource path="res://addons/DialogGraph/imgs/arrow-right-white.png" type="Texture" id=2]
 [ext_resource path="res://addons/DialogGraph/Demo/imgs/man.png" type="Texture" id=3]
-[ext_resource path="res://addons/DialogGraph/Demo/imgs/e_1.jpg" type="Texture" id=4]
+[ext_resource path="res://addons/DialogGraph/Demo/sound/lounge music, game music _1.mp3" type="AudioStream" id=4]
 [ext_resource path="res://addons/DialogGraph/font/default.tres" type="DynamicFont" id=5]
+[ext_resource path="res://addons/DialogGraph/Demo/imgs/e_3.jpg" type="Texture" id=6]
+[ext_resource path="res://addons/DialogGraph/Demo/sound/Barrel Break_1_1.mp3" type="AudioStream" id=7]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
 [node name="DialogueBoxEditor" type="PanelContainer"]
-visible = false
 margin_right = 366.0
 margin_bottom = 201.0
 
@@ -17,13 +18,13 @@ margin_bottom = 201.0
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 359.0
-margin_bottom = 356.0
+margin_bottom = 339.0
 
 [node name="DialogueManagerBox" type="Control" parent="."]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 359.0
-margin_bottom = 356.0
+margin_bottom = 339.0
 script = ExtResource( 1 )
 root_node = NodePath("..")
 rich_text_speaker = NodePath("../MarginContainer/VBoxContainer/HBoxContainer2/speaker")
@@ -36,12 +37,14 @@ button_close = NodePath("../MarginContainer/VBoxContainer/HBoxContainer/Button_c
 button_empty = NodePath("../MarginContainer/VBoxContainer/Button_empty")
 env_texture = NodePath("../MarginContainer/VBoxContainer/env_texture")
 character_texture = NodePath("../MarginContainer/VBoxContainer/HBoxContainer2/character_texture")
+player_music = NodePath("../AudioStreamPlayer_music")
+player_sound = NodePath("../AudioStreamPlayer_sound")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 359.0
-margin_bottom = 356.0
+margin_bottom = 339.0
 custom_constants/margin_right = 12
 custom_constants/margin_top = 12
 custom_constants/margin_left = 12
@@ -51,7 +54,7 @@ custom_constants/margin_bottom = 12
 margin_left = 12.0
 margin_top = 12.0
 margin_right = 340.0
-margin_bottom = 337.0
+margin_bottom = 320.0
 custom_constants/separation = 6
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
@@ -79,7 +82,7 @@ margin_top = 38.0
 margin_right = 328.0
 margin_bottom = 228.0
 rect_min_size = Vector2( 0, 190 )
-texture = ExtResource( 4 )
+texture = ExtResource( 6 )
 expand = true
 stretch_mode = 6
 
@@ -108,21 +111,21 @@ fit_content_height = true
 [node name="description" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
 margin_top = 255.0
 margin_right = 328.0
-margin_bottom = 287.0
+margin_bottom = 270.0
 rect_clip_content = false
 size_flags_horizontal = 3
 size_flags_vertical = 7
 custom_fonts/bold_font = ExtResource( 5 )
 bbcode_enabled = true
-bbcode_text = "[b]text[/b] text"
-text = "text text"
+bbcode_text = "Вас привезли к.. [shake rate=20.0 level=12 connected=1]гостинице[/shake]"
+text = "Вас привезли к.. гостинице"
 fit_content_height = true
 
 [node name="Button_empty" type="Button" parent="MarginContainer/VBoxContainer"]
 margin_left = 296.0
-margin_top = 293.0
+margin_top = 276.0
 margin_right = 328.0
-margin_bottom = 325.0
+margin_bottom = 308.0
 rect_min_size = Vector2( 32, 32 )
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 8
@@ -172,5 +175,10 @@ custom_styles/focus = SubResource( 1 )
 text = "Button option 4"
 
 [node name="AudioStreamPlayer_music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = -15.0
 
 [node name="AudioStreamPlayer_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+volume_db = -2.0
+pitch_scale = 1.02548

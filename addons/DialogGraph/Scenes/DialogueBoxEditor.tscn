@@ -2,11 +2,11 @@
 
 [ext_resource path="res://addons/DialogGraph/DialogueManagerBox.gd" type="Script" id=1]
 [ext_resource path="res://addons/DialogGraph/imgs/arrow-right-white.png" type="Texture" id=2]
-[ext_resource path="res://addons/DialogGraph/Demo/imgs/man.png" type="Texture" id=3]
-[ext_resource path="res://addons/DialogGraph/Demo/sound/lounge music, game music _1.mp3" type="AudioStream" id=4]
+[ext_resource path="res://imgs/man.png" type="Texture" id=3]
+[ext_resource path="res://sounds/lounge music, game music _1.mp3" type="AudioStream" id=4]
 [ext_resource path="res://addons/DialogGraph/font/default.tres" type="DynamicFont" id=5]
-[ext_resource path="res://addons/DialogGraph/Demo/imgs/e_3.jpg" type="Texture" id=6]
-[ext_resource path="res://addons/DialogGraph/Demo/sound/Barrel Break_1_1.mp3" type="AudioStream" id=7]
+[ext_resource path="res://imgs/e_3.jpg" type="Texture" id=6]
+[ext_resource path="res://sounds/Barrel Break_1_1.mp3" type="AudioStream" id=7]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 

@@ -136,7 +136,7 @@ func make_tree():
 	
 	for connection in graph_editor_node.get_connection_list():
 #		connection {from:TimelineHeadNode, from_port:0, to:DialogueNode, to_port:0}
-		print("connection ", connection)
+#		print("connection ", connection)
 
 #		Add to node and get index
 		var to_index = add_node_to_tree(graph_editor_node.get_node(connection["to"]), connection["to"])
@@ -262,6 +262,30 @@ func load_tree_from_json() -> Dictionary:
 func on_delete_node_request(graph_node_name:String):
 	delete_node(graph_node_name)
 	save_tree()
+
+func set_connections(connections:Array):
+	print("%s set_connections(connections:%s)"%[_print, connections])
+	var editor:GraphEdit = get_node(graph_editor)
+	for connection in connections:
+		editor.connect_node(connection['from'], connection['from_port'], connection['to'], connection['to_port'])
+
+func get_connections() -> Array:
+	return get_node(graph_editor).get_connection_list()
+
+func delete_all_ports(node:GraphNodeDialogueBase):
+	print("%s delete_all_ports(node:%s)"%[_print, node])
+	var editor:GraphEdit = get_node(graph_editor)
+	for connection in editor.get_connection_list():
+		if connection["from"] == node.name:
+			editor.disconnect_node(connection['from'], connection['from_port'], connection['to'], connection['to_port'])
+
+func delete_port(from_node:GraphNodeDialogueBase, from_port:int):
+	print("%s delete_port(from_node:%s, from_port:%s)"%[_print, from_node, from_port])
+	var editor:GraphEdit = get_node(graph_editor)
+	for connection in editor.get_connection_list():
+		if connection["from"] == from_node.name and connection["from_port"] == from_port:
+			editor.disconnect_node(connection['from'], connection['from_port'], connection['to'], connection['to_port'])
+			return
 
 func delete_node(graph_node_name:String):
 	if DialogueManager._debug_print: print("%s delete_node(graph_node_name:%s)"%[_print, graph_node_name])

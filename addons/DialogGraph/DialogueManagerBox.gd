@@ -53,7 +53,10 @@ func on_run_row(row_data:DialogueManager.RowData):
 	current_row_data = row_data
 	
 	var show_button_empty:bool = true
+	for i in 4:
+		get_node(get("button_%s"%[i+1])).visible = false
 	for i in row_data.options.size():
+		get_node(get("button_%s"%[i+1])).visible = false
 		if row_data.options[i] == "" or row_data.options[i] == null:
 			get_node(get("button_%s"%[i+1])).visible = false
 		else:

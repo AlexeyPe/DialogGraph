@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://addons/DialogGraph/font/Nunito-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://addons/DialogGraph/imgs/delete2.png" type="Texture" id=2]
+[ext_resource path="res://addons/DialogGraph/Scenes/Nodes/DialogueNodeOption.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=3]
+size = 20
+use_filter = true
+extra_spacing_top = -12
+extra_spacing_bottom = -10
+font_data = ExtResource( 1 )
+
+[node name="DialogueNodeOption" type="HBoxContainer"]
+margin_right = 82.0
+margin_bottom = 24.0
+script = ExtResource( 3 )
+
+[node name="delete_option" type="Button" parent="."]
+margin_right = 24.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+mouse_default_cursor_shape = 2
+custom_fonts/font = SubResource( 3 )
+icon = ExtResource( 2 )
+icon_align = 1
+expand_icon = true
+
+[node name="LineEdit" type="LineEdit" parent="."]
+margin_left = 28.0
+margin_right = 86.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+placeholder_text = "button option"
+
+[connection signal="pressed" from="delete_option" to="." method="_on_delete_option_pressed"]

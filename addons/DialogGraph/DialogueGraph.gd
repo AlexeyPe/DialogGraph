@@ -52,12 +52,10 @@ class RowData:
 		for row_link in row_links:
 			self.row_links.append(row_link[0])
 
-signal on_run_row(row_data)
+signal on_run_row(row_data) # row_data:RowData
 signal on_run_timeline_head(head_name, row_index)
-# Emit from Editor.gd, connect in Signal/Match/If/Set Nodes
 signal on_delete_variable(variable_name, variable_value, variable_type)
-# signal_name:String, signal_data:Dictionary
-signal on_emit_custom_signal(signal_name, signal_data)
+signal on_emit_custom_signal(signal_name, signal_data) # signal_name:String, signal_data:Dictionary
 signal on_toggle_debug_print(new, old)
 signal update_editor_variable(var_name, var_value)
 signal on_timeline_end(timeline_name)
@@ -135,15 +133,10 @@ func run_from_row(row_id:int):
 			else:
 				run_from_row(_row_data[0][0][0])
 		"DialogueNode":
-#			_row_data[4] = [speaker:String, text:String, option1:String, option2:String, option3:String, option4:String]
+#			_row_data[4] = [speaker:String, text:String, options:[option_text:String] ]
 			var speaker:String = _row_data[4][0]
 			var description:String = _row_data[4][1]
-			var options:Array = [
-					_row_data[4][2], 
-					_row_data[4][3], 
-					_row_data[4][4], 
-					_row_data[4][5]
-				]
+			var options:Array = _row_data[4][2]
 			emit_signal("on_run_row", RowData.new(
 				row_id, 
 				speaker, 

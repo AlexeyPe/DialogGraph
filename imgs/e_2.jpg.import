@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/e_1.jpg-36acedd448dcd484a70a66d10dd1dbdb.stex"
+path="res://.import/e_2.jpg-65907ae9eb7cded0d776987bfc88a373.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/DialogGraph/Demo/imgs/e_1.jpg"
-dest_files=[ "res://.import/e_1.jpg-36acedd448dcd484a70a66d10dd1dbdb.stex" ]
+source_file="res://imgs/e_2.jpg"
+dest_files=[ "res://.import/e_2.jpg-65907ae9eb7cded0d776987bfc88a373.stex" ]
 
 [params]
 

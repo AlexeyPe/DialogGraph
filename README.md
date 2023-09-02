@@ -2,11 +2,11 @@
 Addon for Godot 3.5, graph for creating a dialog system from nodes
 
 **⚠ The addon is in a beta version at the development stage, it can be used, but without guarantees of reliability (there are enough bugs)**
+
 **⚠ Work on the addon has stopped, but will be continued in the distant future (I will continue?). I plan to write a big addon for data, it will be similar to structures and tables in ue4/ue5, maybe this addon will become part of a future addon**
 
 ### Preview Images
 
-<img src="https://github.com/AlexeyPe/DialogGraph/assets/70694988/da6690a9-e2eb-4ca0-a29e-1216cc77f54c" />
 <img src="https://github.com/AlexeyPe/DialogGraph/assets/70694988/5dc40e25-78be-4f3c-8446-f97842babdf7" />
 <img src="https://github.com/AlexeyPe/DialogGraph/assets/70694988/4c042cfd-07b1-474b-ae7b-5be512a4e314"/>
 
@@ -41,7 +41,7 @@ signal | GDScript string, LineEdit. This variable is used for SignalNode, it is 
 <img src="https://github.com/AlexeyPe/DialogGraph/assets/70694988/7438346c-e3b1-4ace-9dbc-4842a672b449"/>
 
 2. Dialogues in games like undertail, skyrim and many others
-<img src="https://github.com/AlexeyPe/DialogGraph/assets/70694988/c02d3a1e-566b-4e17-ac36-d204b05f59a4" width="500"/>
+<img src="https://github.com/AlexeyPe/DialogGraph/assets/70694988/c02d3a1e-566b-4e17-ac36-d204b05f59a4"/>
 <img src="https://github.com/AlexeyPe/DialogGraph/assets/70694988/80a80527-55a9-44ee-ad90-b4cc42cf0122" width="500"/>
 
 3. In theory, you can use this addon for tutorials, because tutorials display text in a dialog box, with this addon you can easily make forward and backward buttons, as well as the ability to close the window and everything else
@@ -57,6 +57,8 @@ You can also write your own implementation (for example, if you need more than 4
 Thanks to this approach, you can make the UI whatever you want and quickly add an addon where you already have a UI, but you would just like to add a dialog editor
 
 ![Godot_v3 5 2-stable_win64_oooN5NdmzX](https://github.com/AlexeyPe/DialogGraph/assets/70694988/d5f2af36-1504-4ccb-ba10-c238ac4dfc2a)
+![image](https://github.com/AlexeyPe/DialogGraph/assets/70694988/bd93a2e7-a286-4e04-85f9-31b24759151e)
+
 
 My telegram [@Alexey_Pe](https://t.me/Alexey_Pe)
 

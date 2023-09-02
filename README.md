@@ -6,8 +6,8 @@ Addon for Godot 3.5, graph for creating a dialog system from nodes
 
 ### Preview Images
 
-<img src="https://github.com/AlexeyPe/DialogGraph/assets/70694988/da6690a9-e2eb-4ca0-a29e-1216cc77f54c" width="500" />
-<img src="https://github.com/AlexeyPe/DialogGraph/assets/70694988/5dc40e25-78be-4f3c-8446-f97842babdf7" width="500" />
+<img src="https://github.com/AlexeyPe/DialogGraph/assets/70694988/da6690a9-e2eb-4ca0-a29e-1216cc77f54c" />
+<img src="https://github.com/AlexeyPe/DialogGraph/assets/70694988/5dc40e25-78be-4f3c-8446-f97842babdf7" />
 <img src="https://github.com/AlexeyPe/DialogGraph/assets/70694988/4c042cfd-07b1-474b-ae7b-5be512a4e314"/>
 
 ### Nodes
